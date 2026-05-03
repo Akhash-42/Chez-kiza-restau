@@ -136,6 +136,6 @@ Chez-kiza-restau/
 
 ---
 
-## 👨‍🍳 Auteur
+## 👨‍💻👩‍💻 Auteur
 
 Fait avec ❤️ par l'équipe **OpenMind Academy**
