@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Menu - Chez Kiza{% endblock %}
+
+{% block content %}
+
+<div class="mb-8 text-center">
+    <h1 class="text-3xl md:text-4xl font-extrabold text-secondary">Notre Menu</h1>
+    <p class="text-gray-500 mt-2">Découvrez nos plats du jour, préparés avec amour ❤️</p>
+</div>
+
+{% if plats %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for plat in plats %}
+    <div class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow">
+        {% if plat.image %}
+        <figure>
+            <img src="{{ plat.image.url }}" alt="{{ plat.nom }}" class="w-full h-48 object-cover">
+        </figure>
+        {% else %}
+        <figure class="bg-base-200 h-48 flex items-center justify-center">
+            <span class="text-5xl">🍽️</span>
+        </figure>
+        {% endif %}
+
+        <div class="card-body">
+            <h2 class="card-title text-secondary">{{ plat.nom }}</h2>
+            <p class="text-gray-500 text-sm">{{ plat.description }}</p>
+            <div class="mt-2">
+                <span class="text-xl font-bold text-primary">{{ plat.prix }} FCFA</span>
+            </div>
+            <div class="card-actions mt-4">
+                <a href="{% url 'ajouter_au_panier' plat.id %}" class="btn btn-primary w-full text-white add-to-cart-btn">
+                    🛒 Ajouter au panier
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+<div class="flex flex-col items-center justify-center py-24 text-center">
+    <span class="text-6xl mb-4">😔</span>
+    <h2 class="text-2xl font-bold text-secondary">Aucun plat disponible pour aujourd'hui</h2>
+    <p class="text-gray-500 mt-2">Revenez bientôt, notre chef prépare de nouvelles saveurs !</p>
+</div>
+{% endif %}
+
+{% endblock %}

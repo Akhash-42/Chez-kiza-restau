@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Connexion - Chez Kiza{% endblock %}
+
+{% block content %}
+<div class="bg-base-200 min-h-screen flex items-center justify-center px-4">
+    <div class="card w-full max-w-sm shadow-2xl bg-base-100">
+        <div class="card-body">
+
+            <div class="flex flex-col items-center mb-4">
+                <img src="{% static 'menu/images/logo.jpg' %}" alt="Chez Kiza" class="w-24 mx-auto mb-4 rounded-full object-cover">
+                <h2 class="text-2xl font-extrabold text-secondary">Bon retour 👋</h2>
+                <p class="text-gray-500 text-sm mt-1">Connectez-vous à votre compte</p>
+            </div>
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-error mb-2">
+                <span>{{ form.non_field_errors|join:", " }}</span>
+            </div>
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-control mb-3">
+                    <label class="label">
+                        <span class="label-text font-semibold text-secondary">{{ field.label }}</span>
+                    </label>
+                    <input
+                        type="{{ field.field.widget.input_type }}"
+                        name="{{ field.html_name }}"
+                        id="{{ field.id_for_label }}"
+                        {% if field.value %}value="{{ field.value }}"{% endif %}
+                        class="input input-bordered w-full focus:input-primary"
+                        placeholder="{{ field.label }}"
+                    >
+                    {% if field.errors %}
+                    <label class="label">
+                        <span class="label-text-alt text-error">{{ field.errors|join:", " }}</span>
+                    </label>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <button type="submit" class="btn btn-primary w-full mt-4 text-white">
+                    Se connecter
+                </button>
+            </form>
+
+            <div class="divider text-gray-400 text-xs">ou</div>
+
+            <p class="text-center text-sm text-gray-500">
+                Pas encore de compte ?
+                <a href="{% url 'inscription' %}" class="text-primary font-semibold hover:underline">S'inscrire</a>
+            </p>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

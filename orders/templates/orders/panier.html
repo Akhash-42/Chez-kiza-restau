@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Mon Panier - Chez Kiza{% endblock %}
+
+{% block content %}
+
+<h1 class="text-3xl font-extrabold text-secondary mb-6">🛒 Mon Panier</h1>
+
+{% if panier %}
+
+<div class="overflow-x-auto rounded-xl shadow">
+    <table class="table w-full bg-base-100">
+        <thead class="bg-secondary text-white">
+            <tr>
+                <th>Plat</th>
+                <th class="text-center">Quantité</th>
+                <th class="text-right">Prix unitaire</th>
+                <th class="text-right">Sous-total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in panier %}
+            <tr class="hover">
+                <td class="font-semibold text-secondary">{{ item.plat.nom }}</td>
+                <td class="text-center">{{ item.quantite }}</td>
+                <td class="text-right">{{ item.plat.prix }} FCFA</td>
+                <td class="text-right font-bold text-primary">{{ item.sous_total }} FCFA</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr class="bg-base-200">
+                <td colspan="3" class="text-right font-extrabold text-secondary text-lg">Total</td>
+                <td class="text-right font-extrabold text-primary text-lg">{{ total }} FCFA</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div class="mt-6">
+    <a href="{% url 'valider_commande' %}" class="btn btn-primary w-full text-white text-lg">
+        ✅ Valider la commande
+    </a>
+</div>
+
+{% else %}
+
+<div class="flex flex-col items-center justify-center py-24 text-center">
+    <span class="text-6xl mb-4">🛒</span>
+    <h2 class="text-2xl font-bold text-secondary">Votre panier est vide</h2>
+    <p class="text-gray-500 mt-2">Ajoutez des plats depuis notre menu pour commencer.</p>
+    <a href="{% url 'liste_plats' %}" class="btn btn-primary mt-6 text-white">
+        Voir le menu
+    </a>
+</div>
+
+{% endif %}
+
+{% endblock %}

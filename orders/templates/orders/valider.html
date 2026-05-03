@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Valider la commande - Chez Kiza{% endblock %}
+
+{% block content %}
+
+<div class="flex items-center justify-center px-4 py-10">
+    <div class="card w-full max-w-md shadow-2xl bg-base-100">
+        <div class="card-body">
+
+            <h2 class="text-2xl font-extrabold text-secondary text-center mb-4">📦 Confirmer la livraison</h2>
+            <p class="text-gray-500 text-sm text-center mb-6">Renseignez vos informations de livraison</p>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="form-control mb-4">
+                    <label class="label">
+                        <span class="label-text font-semibold text-secondary">Quartier</span>
+                    </label>
+                    <input
+                        type="text"
+                        name="quartier"
+                        class="input input-bordered w-full focus:input-primary"
+                        placeholder="Ex: Cocody, Yopougon..."
+                        required
+                    >
+                </div>
+
+                <div class="form-control mb-4">
+                    <label class="label">
+                        <span class="label-text font-semibold text-secondary">Numéro de téléphone</span>
+                    </label>
+                    <input
+                        type="text"
+                        name="numero"
+                        class="input input-bordered w-full focus:input-primary"
+                        placeholder="Ex: +225 07 00 00 00 00"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="btn btn-primary w-full text-white mt-2">
+                    Confirmer la commande
+                </button>
+            </form>
+
+            <a href="{% url 'panier' %}" class="btn btn-ghost w-full mt-2 text-secondary">
+                ← Retour au panier
+            </a>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

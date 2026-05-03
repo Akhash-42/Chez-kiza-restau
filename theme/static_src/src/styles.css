@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+    themes: kiza --default;
+}
+
+@plugin "daisyui/theme" {
+    name: "kiza";
+    default: true;
+    color-scheme: light;
+    --color-primary: #F5A623;
+    --color-secondary: #3D2B1F;
+    --color-accent: #E63946;
+    --color-base-100: #ffffff;
+    --color-base-200: #f5f5f5;
+    --color-base-300: #e0e0e0;
+    --color-base-content: #1a1a1a;
+}
+
+@source "../../../**/*.{html,py,js}";

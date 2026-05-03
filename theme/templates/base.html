@@ -1,0 +1,189 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="fr" data-theme="kiza">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Chez Kiza{% endblock %}</title>
+    {% tailwind_css %}
+    <style>
+        .flying-cart {
+            position: fixed;
+            font-size: 1.5rem;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            opacity: 1;
+        }
+        .flying-cart.animate {
+            opacity: 0;
+            transform: scale(0.3);
+        }
+        #panier-icon {
+            position: relative;
+        }
+        #panier-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #E63946;
+            color: white;
+            border-radius: 9999px;
+            font-size: 0.65rem;
+            font-weight: bold;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col bg-base-100">
+
+    <!-- NAVBAR -->
+    <div class="navbar bg-secondary text-white shadow-md px-4">
+        <!-- Burger menu mobile -->
+        <div class="navbar-start">
+            <div class="dropdown">
+                <label tabindex="0" class="btn btn-ghost lg:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </label>
+                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-secondary rounded-box w-52">
+                    <li><a href="{% url 'landing' %}" class="text-white hover:text-primary">Accueil</a></li>
+                    <li><a href="{% url 'liste_plats' %}" class="text-white hover:text-primary">Menu</a></li>
+                    <li>
+                        <a href="{% url 'panier' %}" class="text-white hover:text-primary">🛒 Panier</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'mes_commandes' %}" class="text-white hover:text-primary">📋 Mes commandes</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Logo -->
+        <div class="navbar-center">
+            <a href="{% url 'landing' %}" class="flex items-center gap-2">
+                <img src="{% static 'menu/images/logo.jpg' %}" alt="Chez Kiza" class="h-10 w-10 rounded-full object-cover">
+                <span class="text-xl font-bold text-primary">Chez Kiza</span>
+            </a>
+        </div>
+
+        <!-- Liens desktop -->
+        <div class="navbar-end hidden lg:flex">
+            <ul class="menu menu-horizontal gap-1 items-center">
+                <li><a href="{% url 'landing' %}" class="text-white hover:text-primary">Accueil</a></li>
+                <li><a href="{% url 'liste_plats' %}" class="text-white hover:text-primary">Menu</a></li>
+                <li>
+                    <a href="{% url 'panier' %}" id="panier-icon" class="text-white hover:text-primary text-xl">
+                        🛒
+                        <span id="panier-badge" style="display:none;">0</span>
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'mes_commandes' %}" class="text-white hover:text-primary">📋 Mes commandes</a></li>
+                <li><a href="{% url 'deconnexion' %}" class="btn btn-sm btn-accent text-white">Déconnexion</a></li>
+                {% else %}
+                <li><a href="{% url 'connexion' %}" class="btn btn-sm btn-primary text-white">Connexion</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- MESSAGES -->
+    {% if messages %}
+    <div class="container mx-auto px-4 mt-4">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} mb-2">
+            <span>{{ message }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- CONTENU -->
+    <main class="flex-1 container mx-auto px-4 py-6">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer footer-center bg-secondary text-white p-6 mt-auto">
+        <p class="font-semibold">Chez Kiz❤️ - Delicious food</p>
+    </footer>
+
+    <script>
+        // Badge compteur depuis localStorage
+        const badge = document.getElementById('panier-badge');
+
+        function getCount() {
+            return parseInt(localStorage.getItem('panier_count') || '0');
+        }
+
+        function updateBadge(count) {
+            if (!badge) return;
+            if (count > 0) {
+                badge.textContent = count;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        updateBadge(getCount());
+
+        // Animation vol vers panier
+        document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                const btnRect = this.getBoundingClientRect();
+                const panierIcon = document.getElementById('panier-icon');
+
+                // Créer l'icône volante
+                const fly = document.createElement('div');
+                fly.classList.add('flying-cart');
+                fly.textContent = '🛒';
+                fly.style.left = (btnRect.left + btnRect.width / 2) + 'px';
+                fly.style.top = (btnRect.top + window.scrollY + btnRect.height / 2) + 'px';
+                document.body.appendChild(fly);
+
+                // Position cible (icône panier navbar)
+                const targetRect = panierIcon
+                    ? panierIcon.getBoundingClientRect()
+                    : { left: window.innerWidth - 60, top: 20 };
+
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        fly.style.left = (targetRect.left + targetRect.width / 2) + 'px';
+                        fly.style.top = (targetRect.top + window.scrollY) + 'px';
+                        fly.classList.add('animate');
+                    });
+                });
+
+                // Incrémenter badge
+                const newCount = getCount() + 1;
+                localStorage.setItem('panier_count', newCount);
+                updateBadge(newCount);
+
+                // Supprimer l'icône volante et rediriger
+                setTimeout(() => {
+                    fly.remove();
+                    window.location.href = href;
+                }, 850);
+            });
+        });
+
+        // Reset badge si on arrive sur la page confirmation
+        if (window.location.pathname.includes('/confirmation/')) {
+            localStorage.setItem('panier_count', '0');
+            updateBadge(0);
+        }
+    </script>
+
+</body>
+</html>

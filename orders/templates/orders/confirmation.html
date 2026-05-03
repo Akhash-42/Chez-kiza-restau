@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Commande confirmée - Chez Kiza{% endblock %}
+
+{% block content %}
+
+<div class="flex items-center justify-center px-4 py-16">
+    <div class="card w-full max-w-md shadow-2xl bg-base-100 text-center">
+        <div class="card-body items-center">
+
+            <div class="text-7xl mb-4">🎉</div>
+            <h2 class="text-3xl font-extrabold text-secondary">Commande confirmée !</h2>
+            <p class="text-gray-500 mt-2">Merci pour votre commande chez <span class="text-primary font-bold">Chez Kiza</span></p>
+
+            <div class="badge badge-primary badge-lg mt-4 text-white font-bold px-6 py-4 text-base">
+                Commande #{{ commande.id }}
+            </div>
+
+            <div class="mt-4 bg-base-200 rounded-xl p-4 w-full text-left">
+                <p class="text-sm text-gray-500">Quartier : <span class="font-semibold text-secondary">{{ commande.quartier }}</span></p>
+                <p class="text-sm text-gray-500 mt-1">Téléphone : <span class="font-semibold text-secondary">{{ commande.adresse }}</span></p>
+                <p class="text-sm text-gray-500 mt-1">Statut : <span class="badge badge-warning text-white">{{ commande.get_statut_display }}</span></p>
+            </div>
+
+            <p class="text-gray-400 text-sm mt-4">Votre commande est en cours de préparation. Nous vous livrons bientôt ! 🚀</p>
+
+            <a href="{% url 'liste_plats' %}" class="btn btn-primary w-full mt-6 text-white">
+                Retour au menu
+            </a>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

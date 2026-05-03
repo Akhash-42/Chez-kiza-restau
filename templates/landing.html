@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}Chez Kiza - Commandez vos repas préférés{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="hero min-h-[80vh] rounded-2xl overflow-hidden" style="background: linear-gradient(135deg, #3D2B1F 0%, #1a0f08 100%);">
+    <div class="hero-content text-center flex-col gap-6 py-16 px-4">
+        <div>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight">
+                Commandez vos <span class="text-primary">repas préférés</span>
+            </h1>
+            <p class="mt-4 text-lg md:text-xl text-gray-300 max-w-xl mx-auto">
+                Saveurs authentiques, livrées directement chez vous. Rapide, frais et délicieux.
+            </p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3 mt-4">
+            <a href="/accounts/inscription/" class="btn btn-primary text-white px-8">S'inscrire</a>
+            <a href="/accounts/connexion/" class="btn btn-outline btn-primary px-8">Se connecter</a>
+            <a href="/menu/" class="btn btn-accent text-white px-8">Voir le menu</a>
+        </div>
+    </div>
+</section>
+
+<!-- POURQUOI NOUS CHOISIR -->
+<section class="py-16">
+    <h2 class="text-3xl font-bold text-center text-secondary mb-10">Pourquoi nous choisir ?</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div class="card bg-base-200 shadow-md hover:shadow-xl transition-shadow">
+            <div class="card-body items-center text-center">
+                <div class="text-5xl mb-3">🚀</div>
+                <h3 class="card-title text-secondary">Livraison rapide</h3>
+                <p class="text-gray-600">Votre commande livrée en moins de 30 minutes dans votre quartier.</p>
+            </div>
+        </div>
+
+        <div class="card bg-base-200 shadow-md hover:shadow-xl transition-shadow">
+            <div class="card-body items-center text-center">
+                <div class="text-5xl mb-3">🍽️</div>
+                <h3 class="card-title text-secondary">Menu du jour frais</h3>
+                <p class="text-gray-600">Des plats préparés chaque jour avec des ingrédients frais et locaux.</p>
+            </div>
+        </div>
+
+        <div class="card bg-base-200 shadow-md hover:shadow-xl transition-shadow">
+            <div class="card-body items-center text-center">
+                <div class="text-5xl mb-3">📱</div>
+                <h3 class="card-title text-secondary">Commande facile</h3>
+                <p class="text-gray-600">Commandez en quelques clics depuis votre téléphone ou ordinateur.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- TÉMOIGNAGES -->
+<section class="py-16 bg-base-200 rounded-2xl px-6">
+    <h2 class="text-3xl font-bold text-center text-secondary mb-10">Ce que disent nos clients</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div class="card bg-white shadow">
+            <div class="card-body">
+                <p class="text-gray-600 italic">"Les meilleurs plats que j'ai commandés ! Livraison ultra rapide."</p>
+                <div class="mt-4 flex items-center gap-3">
+                    <div class="avatar placeholder">
+                        <div class="bg-primary text-white rounded-full w-10">
+                            <span>A</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="font-bold text-secondary">Aminata</p>
+                        <p class="text-xs text-gray-400">Cliente fidèle</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-white shadow">
+            <div class="card-body">
+                <p class="text-gray-600 italic">"Menu varié et toujours frais. Je recommande à 100% !"</p>
+                <div class="mt-4 flex items-center gap-3">
+                    <div class="avatar placeholder">
+                        <div class="bg-accent text-white rounded-full w-10">
+                            <span>K</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="font-bold text-secondary">Kofi</p>
+                        <p class="text-xs text-gray-400">Client régulier</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-white shadow">
+            <div class="card-body">
+                <p class="text-gray-600 italic">"Super facile à commander, et les plats sont délicieux !"</p>
+                <div class="mt-4 flex items-center gap-3">
+                    <div class="avatar placeholder">
+                        <div class="bg-secondary text-white rounded-full w-10">
+                            <span>M</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="font-bold text-secondary">Marie</p>
+                        <p class="text-xs text-gray-400">Nouvelle cliente</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

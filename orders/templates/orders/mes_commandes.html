@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Mes commandes - Chez Kiza{% endblock %}
+
+{% block content %}
+
+<h1 class="text-3xl font-extrabold text-secondary mb-6">📋 Mes commandes</h1>
+
+{% if commandes_data %}
+<div class="flex flex-col gap-6">
+    {% for item in commandes_data %}
+    {% with commande=item.commande total=item.total %}
+
+    <div class="card bg-base-100 shadow-md">
+        <div class="card-body">
+
+            <!-- En-tête -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div>
+                    <h2 class="text-lg font-extrabold text-secondary">Commande #{{ commande.id }}</h2>
+                    <p class="text-gray-400 text-sm">{{ commande.cree_le|date:"d/m/Y à H:i" }}</p>
+                </div>
+                {% if commande.statut == 'en_preparation' %}
+                <span class="badge badge-warning text-white badge-lg px-4 py-3 self-start sm:self-auto">{{ commande.get_statut_display }}</span>
+                {% elif commande.statut == 'en_livraison' %}
+                <span class="badge badge-info text-white badge-lg px-4 py-3 self-start sm:self-auto">{{ commande.get_statut_display }}</span>
+                {% elif commande.statut == 'livree' %}
+                <span class="badge badge-success text-white badge-lg px-4 py-3 self-start sm:self-auto">{{ commande.get_statut_display }}</span>
+                {% else %}
+                <span class="badge badge-error text-white badge-lg px-4 py-3 self-start sm:self-auto">{{ commande.get_statut_display }}</span>
+                {% endif %}
+            </div>
+
+            <div class="divider my-2"></div>
+
+            <!-- Liste des plats -->
+            <ul class="flex flex-col gap-1">
+                {% for ligne in commande.lignes.all %}
+                <li class="text-sm text-secondary font-medium">
+                    {{ ligne.quantite }}x {{ ligne.plat.nom }} - <span class="text-primary font-bold">{{ ligne.total }} FCFA</span>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <div class="divider my-2"></div>
+
+            <!-- Total + infos livraison -->
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-secondary">Total</span>
+                <span class="text-xl font-extrabold text-primary">{{ total }} FCFA</span>
+            </div>
+
+            <div class="mt-2 text-sm text-gray-500 flex gap-4">
+                <span>📍 {{ commande.quartier }}</span>
+                <span>📞 {{ commande.adresse }}</span>
+            </div>
+
+        </div>
+    </div>
+
+    {% endwith %}
+    {% endfor %}
+</div>
+
+{% else %}
+<div class="flex flex-col items-center justify-center py-24 text-center">
+    <span class="text-6xl mb-4">📭</span>
+    <h2 class="text-2xl font-bold text-secondary">Aucune commande pour l'instant</h2>
+    <p class="text-gray-500 mt-2">Passez votre première commande dès maintenant !</p>
+    <a href="{% url 'liste_plats' %}" class="btn btn-primary mt-6 text-white">Voir le menu</a>
+</div>
+{% endif %}
+
+{% endblock %}
