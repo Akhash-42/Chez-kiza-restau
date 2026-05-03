@@ -138,4 +138,4 @@ Chez-kiza-restau/
 
 ## 👨‍🍳 Auteur
 
-Fait avec ❤️ par l'équipe **Chez Kiza**
+Fait avec ❤️ par l'équipe **OpenMind Academy**
