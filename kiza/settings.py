@@ -67,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'orders.context_processors.cart_context',
             ],
         },
     },
@@ -129,3 +130,5 @@ INTERNAL_IPS = [
 NPM_BIN_PATH = r'C:\Program Files\nodejs\npm.cmd'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+NPM_BIN_PATH = "/usr/bin/npm"

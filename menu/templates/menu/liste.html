@@ -6,32 +6,41 @@
 
 <div class="mb-8 text-center">
     <h1 class="text-3xl md:text-4xl font-extrabold text-secondary">Notre Menu</h1>
-    <p class="text-gray-500 mt-2">Découvrez nos plats du jour, préparés avec amour ❤️</p>
+    <p class="text-gray-500 mt-2">Découvrez nos plats du jour, préparés avec soin et élégance.</p>
 </div>
 
 {% if plats %}
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     {% for plat in plats %}
-    <div class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow">
+    <div class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow" data-spicy="{{ plat.is_spicy|yesno:'true,false' }}">
         {% if plat.image %}
         <figure>
             <img src="{{ plat.image.url }}" alt="{{ plat.nom }}" class="w-full h-48 object-cover">
         </figure>
         {% else %}
         <figure class="bg-base-200 h-48 flex items-center justify-center">
-            <span class="text-5xl">🍽️</span>
+            <span class="text-2xl text-gray-400">Image indisponible</span>
         </figure>
         {% endif %}
 
         <div class="card-body">
-            <h2 class="card-title text-secondary">{{ plat.nom }}</h2>
+            <div class="flex items-start justify-between gap-3">
+                <h2 class="card-title text-secondary">{{ plat.nom }}</h2>
+                    <span class="allergen-chip hidden rounded-full bg-primary/10 text-primary text-xs font-semibold px-3 py-1">{{ plat.allergen_label }}</span>
+            </div>
+                {% if plat.is_spicy %}
+                <span class="spicy-badge inline-flex items-center rounded-full bg-red-100 text-red-700 text-xs font-semibold px-2 py-1 mt-3">Épicé</span>
+                {% endif %}
             <p class="text-gray-500 text-sm">{{ plat.description }}</p>
             <div class="mt-2">
                 <span class="text-xl font-bold text-primary">{{ plat.prix }} FCFA</span>
             </div>
             <div class="card-actions mt-4">
-                <a href="{% url 'ajouter_au_panier' plat.id %}" class="btn btn-primary w-full text-white add-to-cart-btn">
-                    🛒 Ajouter au panier
+                <a href="{% url 'ajouter_au_panier' plat.id %}" class="btn btn-primary w-full text-white add-to-cart-btn inline-flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    Ajouter
                 </a>
             </div>
         </div>
@@ -41,9 +50,8 @@
 
 {% else %}
 <div class="flex flex-col items-center justify-center py-24 text-center">
-    <span class="text-6xl mb-4">😔</span>
     <h2 class="text-2xl font-bold text-secondary">Aucun plat disponible pour aujourd'hui</h2>
-    <p class="text-gray-500 mt-2">Revenez bientôt, notre chef prépare de nouvelles saveurs !</p>
+    <p class="text-gray-500 mt-2">Revenez bientôt, notre chef prépare de nouvelles saveurs.</p>
 </div>
 {% endif %}
 

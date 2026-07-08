@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from menu.models import Plat
 from .models import Commande, LigneCommande
 
@@ -50,6 +51,50 @@ def valider_commande(request):
         return redirect('confirmation', commande_id=commande.id)
 
     return render(request, 'orders/valider.html')
+
+
+@login_required
+def modifier_panier(request, plat_id, action):
+    plat = get_object_or_404(Plat, id=plat_id)
+    panier = request.session.get('panier', {})
+    plat_id_str = str(plat_id)
+    quantity = panier.get(plat_id_str, 0)
+
+    if action == 'increase':
+        quantity += 1
+        panier[plat_id_str] = quantity
+    elif action == 'decrease':
+        if quantity > 1:
+            quantity -= 1
+            panier[plat_id_str] = quantity
+    elif action == 'remove':
+        panier.pop(plat_id_str, None)
+        quantity = 0
+
+    request.session['panier'] = panier
+
+    delivery_fee = 1500
+    subtotal = 0
+    for plat_id_key, quantite in panier.items():
+        plat_obj = get_object_or_404(Plat, id=plat_id_key)
+        subtotal += plat_obj.prix * quantite
+
+    response_data = {
+        'count': sum(panier.values()),
+        'subtotal': f'{subtotal} FCFA',
+        'delivery': f'{delivery_fee} FCFA',
+        'total': f'{subtotal + delivery_fee} FCFA',
+        'empty': not bool(panier),
+    }
+
+    if action in ['increase', 'decrease'] and quantity > 0:
+        response_data['quantity'] = quantity
+        response_data['item_subtotal'] = f'{plat.prix * quantity} FCFA'
+    else:
+        response_data['quantity'] = 0
+        response_data['item_subtotal'] = '0 FCFA'
+
+    return JsonResponse(response_data)
 
 
 @login_required

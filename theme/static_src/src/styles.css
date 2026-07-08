@@ -1,19 +1,46 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-    themes: kiza --default;
+    themes: kiza --default, light, eco;
 }
 
+/* Thème d'origine Chez Kiza (Inspiré du Logo) */
 @plugin "daisyui/theme" {
     name: "kiza";
     default: true;
     color-scheme: light;
-    --color-primary: #F5A623;
-    --color-secondary: #3D2B1F;
-    --color-accent: #E63946;
-    --color-base-100: #ffffff;
-    --color-base-200: #f5f5f5;
-    --color-base-300: #e0e0e0;
-    --color-base-content: #1a1a1a;
+    --color-primary: #5C4033;       /* Rouge bordeaux / Marron logo */
+    --color-secondary: #3D2B1F;     /* Marron foncé */
+    --color-accent: #E63946;        /* Rouge cœur logo */
+    --color-base-100: #FCF5EA;      /* Blanc cassé / Crème logo */
+    --color-base-200: #F7E7D2;      /* Beige clair */
+    --color-base-300: #EAD6C0;      /* Beige moyen */
+    --color-base-content: #2F241D;  /* Texte sombre ultra-lisible */
+}
+
+/* Thème Clair Pur */
+@plugin "daisyui/theme" {
+    name: "light";
+    color-scheme: light;
+    --color-primary: #5C4033;
+    --color-secondary: #111827;
+    --color-accent: #D97706;
+    --color-base-100: #FFFFFF;      /* Blanc pur */
+    --color-base-200: #F3F4G6;
+    --color-base-300: #E5E7EB;
+    --color-base-content: #111827;  /* Texte Noir */
+}
+
+/* Thème Éco Sombre (OLED) */
+@plugin "daisyui/theme" {
+    name: "eco";
+    color-scheme: dark;
+    --color-primary: #5C4033;
+    --color-secondary: #1F2937;
+    --color-accent: #22C55E;
+    --color-base-100: #000000;      /* Noir total pour économie d'énergie */
+    --color-base-200: #111827;
+    --color-base-300: #1F2937;
+    --color-base-content: #FFFFFF;  /* Texte Blanc */
 }
 
 @source "../../../**/*.{html,py,js}";
