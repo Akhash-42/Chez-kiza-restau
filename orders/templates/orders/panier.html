@@ -1,63 +1,75 @@
 {% extends 'base.html' %}
+{% load money %}
 
 {% block title %}Mon Panier - Chez Kiza{% endblock %}
 
 {% block content %}
-
-<div class="flex items-center justify-between mb-6">
-    <div>
-        <p class="text-sm uppercase tracking-[0.32em] text-gray-500">Panier</p>
-        <h1 class="text-3xl font-extrabold text-secondary">Mon Panier</h1>
+<div class="max-w-4xl mx-auto space-y-6">
+    <div class="text-center">
+        <span class="text-[11px] uppercase tracking-[0.25em] text-primary font-semibold">Panier</span>
+        <h1 class="text-3xl font-extrabold tracking-tight text-base-content mt-2">Mon Panier</h1>
     </div>
+
+    {% if panier %}
+    <div class="bg-base-100 border border-base-300 rounded-2xl overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="table w-full">
+                <thead class="bg-base-200 text-base-content/70">
+                    <tr>
+                        <th class="text-xs uppercase tracking-wider">Plat</th>
+                        <th class="text-center text-xs uppercase tracking-wider">Quantité</th>
+                        <th class="text-right text-xs uppercase tracking-wider">Sous-total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in panier %}
+                    <tr class="hover:bg-base-200/50 border-b border-base-200">
+                        <td class="font-semibold text-base-content">{{ item.plat.nom }}</td>
+                        <td class="text-center">
+                            <div class="inline-flex items-center border border-base-300 rounded-xl overflow-hidden">
+                                <a href="{% url 'modifier_panier' 'decrease' item.plat.id %}" class="btn btn-xs btn-ghost rounded-none">−</a>
+                                <span class="px-2.5 font-semibold text-base-content">{{ item.quantite }}</span>
+                                <a href="{% url 'modifier_panier' 'increase' item.plat.id %}" class="btn btn-xs btn-ghost rounded-none">+</a>
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <span class="font-bold text-primary">{{ item.sous_total|fcf }} FCFA</span>
+                            <a href="{% url 'modifier_panier' 'remove' item.plat.id %}" class="btn btn-xs btn-ghost text-base-content/40 hover:text-error ml-2" title="Retirer">✕</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot class="bg-base-200/50">
+                    <tr>
+                        <td colspan="2" class="text-right font-bold text-base-content">Sous-total</td>
+                        <td class="text-right font-extrabold text-primary text-lg">{{ total|fcf }} FCFA</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-right text-sm text-base-content/60">
+                            Livraison (sur place : gratuit)
+                        </td>
+                        <td class="text-right text-sm text-base-content/60">+ {{ delivery_fee|fcf }} FCFA</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-3">
+        <a href="{% url 'valider_commande' %}" class="btn btn-primary flex-1 rounded-xl text-primary-content text-lg font-bold">
+            Valider la commande
+        </a>
+        <a href="{% url 'liste_plats' %}" class="btn btn-outline border-base-300 rounded-xl">
+            ← Continuer le menu
+        </a>
+    </div>
+    {% else %}
+    <div class="flex flex-col items-center justify-center py-24 text-center">
+        <span class="text-6xl mb-4">🛒</span>
+        <h2 class="text-2xl font-bold text-base-content">Votre panier est vide</h2>
+        <p class="text-base-content/60 mt-2">Ajoutez des plats depuis notre menu pour commencer.</p>
+        <a href="{% url 'liste_plats' %}" class="btn btn-primary mt-6 rounded-xl text-primary-content">Voir le menu</a>
+    </div>
+    {% endif %}
 </div>
-
-{% if panier %}
-
-<div class="overflow-x-auto rounded-xl shadow">
-    <table class="table w-full bg-base-100">
-        <thead class="bg-secondary text-white">
-            <tr>
-                <th>Plat</th>
-                <th class="text-center">Quantité</th>
-                <th class="text-right">Prix unitaire</th>
-                <th class="text-right">Sous-total</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in panier %}
-            <tr class="hover">
-                <td class="font-semibold text-secondary">{{ item.plat.nom }}</td>
-                <td class="text-center">{{ item.quantite }}</td>
-                <td class="text-right">{{ item.plat.prix }} FCFA</td>
-                <td class="text-right font-bold text-primary">{{ item.sous_total }} FCFA</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-        <tfoot>
-            <tr class="bg-base-200">
-                <td colspan="3" class="text-right font-extrabold text-secondary text-lg">Total</td>
-                <td class="text-right font-extrabold text-primary text-lg">{{ total }} FCFA</td>
-            </tr>
-        </tfoot>
-    </table>
-</div>
-
-<div class="mt-6">
-    <a href="{% url 'valider_commande' %}" class="btn btn-primary bg-marron border-0 w-full text-white text-lg rounded-3xl hover:bg-[#462f25]">
-        Valider la commande
-    </a>
-</div>
-
-{% else %}
-
-<div class="flex flex-col items-center justify-center py-24 text-center">
-    <h2 class="text-2xl font-bold text-secondary">Votre panier est vide</h2>
-    <p class="text-gray-500 mt-2">Ajoutez des plats depuis notre menu pour commencer.</p>
-    <a href="{% url 'liste_plats' %}" class="btn btn-primary mt-6 text-white rounded-3xl">
-        Voir le menu
-    </a>
-</div>
-
-{% endif %}
-
 {% endblock %}

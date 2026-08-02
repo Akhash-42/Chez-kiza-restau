@@ -4,52 +4,55 @@
 {% block title %}Inscription - Chez Kiza{% endblock %}
 
 {% block content %}
-<div class="bg-base-200 min-h-screen flex items-center justify-center px-4">
-    <div class="card w-full max-w-sm shadow-2xl bg-base-100">
-        <div class="card-body">
-
-            <div class="flex flex-col items-center mb-4">
-                <img src="{% static 'menu/images/logo.jpg' %}" alt="Chez Kiza" class="w-24 mx-auto mb-4 rounded-full object-cover">
-                <h2 class="text-2xl font-extrabold text-secondary">Créer un compte</h2>
-                <p class="text-gray-500 text-sm mt-1">Rejoignez Chez Kiza dès aujourd'hui</p>
-            </div>
-
-            <form method="POST">
-                {% csrf_token %}
-                {% for field in form %}
-                <div class="form-control mb-3">
-                    <label class="label">
-                        <span class="label-text font-semibold text-secondary">{{ field.label }}</span>
-                    </label>
-                    <input
-                        type="{{ field.field.widget.input_type }}"
-                        name="{{ field.html_name }}"
-                        id="{{ field.id_for_label }}"
-                        {% if field.value %}value="{{ field.value }}"{% endif %}
-                        class="input input-bordered w-full focus:input-primary"
-                        placeholder="{{ field.label }}"
-                    >
-                    {% if field.errors %}
-                    <label class="label">
-                        <span class="label-text-alt text-error">{{ field.errors|join:", " }}</span>
-                    </label>
-                    {% endif %}
-                </div>
-                {% endfor %}
-
-                <button type="submit" class="btn btn-primary w-full mt-4 text-white">
-                    S'inscrire
-                </button>
-            </form>
-
-            <div class="divider text-gray-400 text-xs">ou</div>
-
-            <p class="text-center text-sm text-gray-500">
-                Déjà inscrit ?
-                <a href="{% url 'connexion' %}" class="text-primary font-semibold hover:underline">Se connecter</a>
-            </p>
-
+<div class="max-w-sm mx-auto">
+    <div class="bg-base-100 border border-base-300 rounded-2xl p-6 lg:p-8">
+        <div class="flex flex-col items-center mb-6 text-center">
+            <img src="{% static 'menu/images/logo.jpg' %}" alt="Chez Kiza" class="w-16 h-16 rounded-full object-cover ring-2 ring-base-300 mb-4">
+            <h1 class="text-2xl font-extrabold text-base-content">Créer un compte</h1>
+            <p class="text-base-content/60 text-sm mt-1">Rejoignez Chez Kiza dès aujourd'hui</p>
         </div>
+
+        {% if form.non_field_errors %}
+        <div class="alert alert-error mb-4 rounded-xl">
+            <span>{{ form.non_field_errors|join:", " }}</span>
+        </div>
+        {% endif %}
+
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+            {% for field in form %}
+            <div>
+                <label class="label px-0 py-0 mb-1.5">
+                    <span class="label-text font-semibold text-base-content">{{ field.label }}</span>
+                </label>
+                <input
+                    type="{{ field.field.widget.input_type }}"
+                    name="{{ field.html_name }}"
+                    id="{{ field.id_for_label }}"
+                    {% if field.value %}value="{{ field.value }}"{% endif %}
+                    class="input input-bordered w-full rounded-xl"
+                    placeholder="{{ field.label }}"
+                >
+                {% if field.errors %}
+                <label class="label px-0 py-1">
+                    <span class="label-text-alt text-error">{{ field.errors|join:", " }}</span>
+                </label>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary w-full rounded-xl text-primary-content">
+                S'inscrire
+            </button>
+        </form>
+
+        <div class="divider text-base-content/40 text-xs">ou</div>
+
+        <p class="text-center text-sm text-base-content/60">
+            Déjà inscrit ?
+            <a href="{% url 'connexion' %}" class="text-primary font-semibold hover:underline">Se connecter</a>
+        </p>
     </div>
 </div>
 {% endblock %}

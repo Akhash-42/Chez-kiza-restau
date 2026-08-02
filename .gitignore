@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environnements virtuels
+.env
+.venv/
+venv/
+env/
+ENV/
+
+# Base de données SQLite
+*.sqlite3
+*.db
+db.sqlite3
+db.sqlite3-journal
+
+# Fichiers média uploadés
+media/
+plats/
+
+# Node / Tailwind
+node_modules/
+theme/static_src/node_modules/
+
+# Django
+staticfiles/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp

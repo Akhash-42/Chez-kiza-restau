@@ -3,81 +3,87 @@
 {% block title %}Paramètres - Chez Kiza{% endblock %}
 
 {% block content %}
-<div class="w-full px-0 py-8 lg:px-0">
-    <div class="max-w-6xl mx-auto space-y-8">
-        <div class="bg-secondary rounded-[28px] px-6 py-8 lg:px-10 lg:py-10 shadow-2xl">
-            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-                <div>
-                    <p class="text-sm uppercase tracking-[0.3em] text-primary">Apparence</p>
-                    <h1 class="text-3xl lg:text-4xl font-extrabold text-white mt-3">Préférences de thème</h1>
-                </div>
-                <div class="inline-flex gap-3 flex-wrap">
-                    <button type="button" data-theme-value="kiza" class="theme-switch-btn btn btn-outline rounded-3xl border-primary text-white hover:bg-primary/10 transition duration-300">Thème Kiza</button>
-                    <button type="button" data-theme-value="light" class="theme-switch-btn btn btn-outline rounded-3xl border-white/20 text-white hover:bg-white/10 transition duration-300">Mode Clair</button>
-                    <button type="button" data-theme-value="eco" class="theme-switch-btn btn btn-outline rounded-3xl border-white/20 text-white hover:bg-white/10 transition duration-300">Mode Éco</button>
-                </div>
-            </div>
-            <p class="mt-6 text-gray-300 max-w-2xl">Personnalisez votre expérience visuelle avec un switch rapide entre les thèmes et gardez votre préférence enregistrée pour toutes les pages du site.</p>
-        </div>
+<div class="space-y-6">
+    <div class="text-center max-w-2xl mx-auto">
+        <span class="text-[11px] uppercase tracking-[0.25em] text-primary font-semibold">Personnalisation</span>
+        <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-base-content mt-2">Préférences</h1>
+        <p class="text-base-content/60 mt-2">Personnalisez votre expérience : thème et confort de lecture, enregistrés pour toutes vos visites.</p>
+    </div>
 
-        <div class="bg-base-100 rounded-[28px] shadow-2xl p-6 lg:p-10">
-            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
-                <div>
-                    <p class="text-sm uppercase tracking-[0.3em] text-primary">Navigation</p>
-                    <h2 class="text-2xl font-bold text-secondary mt-3">Filtres de confort</h2>
-                </div>
-                <div class="space-y-4 w-full lg:w-[420px]">
-                    <label class="flex items-center justify-between gap-4 rounded-3xl border border-base-200 bg-base-200 px-5 py-4 transition duration-300 hover:border-primary">
-                        <span>
-                            <span class="block text-sm font-semibold text-secondary">Mode d'affichage compact</span>
-                            <span class="text-sm text-gray-500">Affiche plus de plats sur écran.</span>
-                        </span>
-                        <input type="checkbox" id="toggle-compact-menu" class="toggle toggle-primary" />
-                    </label>
-                    <label class="flex items-center justify-between gap-4 rounded-3xl border border-base-200 bg-base-200 px-5 py-4 transition duration-300 hover:border-primary">
-                        <span>
-                            <span class="block text-sm font-semibold text-secondary">Masquer les plats épicés</span>
-                            <span class="text-sm text-gray-500">Filtre le contenu pour un affichage plus doux.</span>
-                        </span>
-                        <input type="checkbox" id="toggle-hide-spicy" class="toggle toggle-primary" />
-                    </label>
-                    <label class="flex items-center justify-between gap-4 rounded-3xl border border-base-200 bg-base-200 px-5 py-4 transition duration-300 hover:border-primary">
-                        <span>
-                            <span class="block text-sm font-semibold text-secondary">Afficher les allergènes majeurs</span>
-                            <span class="text-sm text-gray-500">Montre les puces de contenu dans le menu.</span>
-                        </span>
-                        <input type="checkbox" id="toggle-show-allergens" class="toggle toggle-primary" />
-                    </label>
-                </div>
+    <!-- Thème -->
+    <div class="bg-base-100 border border-base-300 rounded-2xl p-6 lg:p-8">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+            <div>
+                <p class="text-xs uppercase tracking-[0.25em] text-primary font-semibold">Apparence</p>
+                <h2 class="text-2xl font-bold text-base-content mt-2">Thème du site</h2>
+            </div>
+            <div class="inline-flex gap-2 flex-wrap">
+                <button type="button" data-theme-value="kiza" class="theme-switch-btn btn btn-outline rounded-xl border-base-300">Thème Kiza</button>
+                <button type="button" data-theme-value="light" class="theme-switch-btn btn btn-outline rounded-xl border-base-300">Clair</button>
+                <button type="button" data-theme-value="eco" class="theme-switch-btn btn btn-outline rounded-xl border-base-300">Éco</button>
             </div>
         </div>
+    </div>
 
-        <div class="bg-secondary rounded-[28px] p-6 lg:p-10 shadow-2xl">
-            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-                <div>
-                    <p class="text-sm uppercase tracking-[0.3em] text-primary">Support</p>
-                    <h2 class="text-2xl font-bold text-white mt-3">Infos pratiques & assistance</h2>
-                </div>
-                <a href="mailto:support@chez-kiza.local" class="btn btn-primary rounded-3xl px-6 py-4 text-white transition duration-300 hover:bg-[#462f25] inline-flex items-center gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-18 8h18a2 2 0 002-2V8a2 2 0 00-2-2H3a2 2 0 00-2 2v6a2 2 0 002 2z" />
-                    </svg>
-                    Contacter le support
-                </a>
+    <!-- Filtres de confort -->
+    <div class="bg-base-100 border border-base-300 rounded-2xl p-6 lg:p-8">
+        <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+            <div class="max-w-md">
+                <p class="text-xs uppercase tracking-[0.25em] text-primary font-semibold">Navigation</p>
+                <h2 class="text-2xl font-bold text-base-content mt-2">Filtres de confort</h2>
             </div>
-            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="rounded-3xl bg-base-100 p-5">
-                    <p class="text-sm uppercase tracking-[0.3em] text-gray-500">Horaires</p>
-                    <p class="mt-3 text-slate-900 font-semibold">Lun-Dim • 10h00 – 22h00</p>
-                </div>
-                <div class="rounded-3xl bg-base-100 p-5">
-                    <p class="text-sm uppercase tracking-[0.3em] text-gray-500">Adresse</p>
-                    <p class="mt-3 text-slate-900 font-semibold">Rue du Marché, Quartier Central, Abidjan</p>
-                </div>
-                <div class="rounded-3xl bg-base-100 p-5">
-                    <p class="text-sm uppercase tracking-[0.3em] text-gray-500">Livraison</p>
-                    <p class="mt-3 text-slate-900 font-semibold">Zone principale : 5 km autour du restaurant</p>
-                </div>
+            <div class="space-y-3 w-full lg:w-[420px]">
+                <label class="flex items-center justify-between gap-4 border border-base-300 rounded-xl px-5 py-4 transition-colors hover:border-primary cursor-pointer">
+                    <span>
+                        <span class="block text-sm font-semibold text-base-content">Mode d'affichage compact</span>
+                        <span class="text-sm text-base-content/60">Affiche plus de plats sur écran.</span>
+                    </span>
+                    <input type="checkbox" id="toggle-compact-menu" class="toggle toggle-primary" />
+                </label>
+                <label class="flex items-center justify-between gap-4 border border-base-300 rounded-xl px-5 py-4 transition-colors hover:border-primary cursor-pointer">
+                    <span>
+                        <span class="block text-sm font-semibold text-base-content">Masquer les plats épicés</span>
+                        <span class="text-sm text-base-content/60">Filtre le contenu pour un affichage plus doux.</span>
+                    </span>
+                    <input type="checkbox" id="toggle-hide-spicy" class="toggle toggle-primary" />
+                </label>
+                <label class="flex items-center justify-between gap-4 border border-base-300 rounded-xl px-5 py-4 transition-colors hover:border-primary cursor-pointer">
+                    <span>
+                        <span class="block text-sm font-semibold text-base-content">Afficher les allergènes majeurs</span>
+                        <span class="text-sm text-base-content/60">Montre les puces de contenu dans le menu.</span>
+                    </span>
+                    <input type="checkbox" id="toggle-show-allergens" class="toggle toggle-primary" />
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Infos pratiques -->
+    <div class="bg-base-100 border border-base-300 rounded-2xl p-6 lg:p-8">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+            <div>
+                <p class="text-xs uppercase tracking-[0.25em] text-primary font-semibold">Support</p>
+                <h2 class="text-2xl font-bold text-base-content mt-2">Infos pratiques & assistance</h2>
+            </div>
+            <a href="mailto:support@chez-kiza.local" class="btn btn-primary rounded-xl text-primary-content">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-18 8h18a2 2 0 002-2V8a2 2 0 00-2-2H3a2 2 0 00-2 2v6a2 2 0 002 2z" />
+                </svg>
+                Contacter le support
+            </a>
+        </div>
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div class="border border-base-200 rounded-xl p-5">
+                <p class="text-xs uppercase tracking-[0.25em] text-base-content/50">Horaires</p>
+                <p class="mt-2 text-base-content font-semibold">Lun-Dim • 10h00 – 22h00</p>
+            </div>
+            <div class="border border-base-200 rounded-xl p-5">
+                <p class="text-xs uppercase tracking-[0.25em] text-base-content/50">Adresse</p>
+                <p class="mt-2 text-base-content font-semibold">Rue du Marché, Quartier Central, Abidjan</p>
+            </div>
+            <div class="border border-base-200 rounded-xl p-5">
+                <p class="text-xs uppercase tracking-[0.25em] text-base-content/50">Livraison</p>
+                <p class="mt-2 text-base-content font-semibold">Zone principale : 5 km autour du restaurant</p>
             </div>
         </div>
     </div>
@@ -85,35 +91,26 @@
 
 <script>
     const themeButtons = document.querySelectorAll('.theme-switch-btn');
-    const themeMap = {
-        kiza: 'kiza',
-        light: 'light',
-        eco: 'eco',
-    };
 
     const compactToggle = document.getElementById('toggle-compact-menu');
     const hideSpicyToggle = document.getElementById('toggle-hide-spicy');
     const showAllergensToggle = document.getElementById('toggle-show-allergens');
 
-    function updateSetting(key, value) {
-        localStorage.setItem(key, value);
-    }
-
     function syncToggle(key, element) {
-        const currentValue = localStorage.getItem(key) === '1';
-        element.checked = currentValue;
+        element.checked = localStorage.getItem(key) === '1';
     }
 
     function setActiveThemeButton(theme) {
         themeButtons.forEach(button => {
             const isActive = button.dataset.themeValue === theme;
             button.classList.toggle('btn-primary', isActive);
+            button.classList.toggle('text-primary-content', isActive);
             button.classList.toggle('btn-outline', !isActive);
+            button.classList.toggle('border-base-300', !isActive);
         });
     }
 
     function refreshMenuPreferences() {
-        // prefer global handler if available
         if (window.applyMenuPreferences) {
             window.applyMenuPreferences();
             return;
@@ -145,9 +142,8 @@
 
     themeButtons.forEach(button => {
         button.addEventListener('click', () => {
-            const value = button.dataset.themeValue;
-            if (!value) return;
-            const theme = themeMap[value] || value;
+            const theme = button.dataset.themeValue;
+            if (!theme) return;
             localStorage.setItem('kiza_theme', theme);
             if (window.applyTheme) {
                 window.applyTheme(theme);
@@ -159,17 +155,17 @@
     });
 
     compactToggle?.addEventListener('change', () => {
-        updateSetting('kiza_compact_menu', compactToggle.checked ? '1' : '0');
+        localStorage.setItem('kiza_compact_menu', compactToggle.checked ? '1' : '0');
         refreshMenuPreferences();
     });
 
     hideSpicyToggle?.addEventListener('change', () => {
-        updateSetting('kiza_hide_spicy', hideSpicyToggle.checked ? '1' : '0');
+        localStorage.setItem('kiza_hide_spicy', hideSpicyToggle.checked ? '1' : '0');
         refreshMenuPreferences();
     });
 
     showAllergensToggle?.addEventListener('change', () => {
-        updateSetting('kiza_show_allergens', showAllergensToggle.checked ? '1' : '0');
+        localStorage.setItem('kiza_show_allergens', showAllergensToggle.checked ? '1' : '0');
         refreshMenuPreferences();
     });
 

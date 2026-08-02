@@ -1,74 +1,86 @@
 {% extends 'base.html' %}
+{% load money %}
 
 {% block title %}Mes commandes - Chez Kiza{% endblock %}
 
 {% block content %}
+<div class="max-w-3xl mx-auto space-y-6">
+    <div class="text-center">
+        <span class="text-[11px] uppercase tracking-[0.25em] text-primary font-semibold">Compte</span>
+        <h1 class="text-3xl font-extrabold tracking-tight text-base-content mt-2">Mes commandes</h1>
+    </div>
 
-<h1 class="text-3xl font-extrabold text-secondary mb-6">📋 Mes commandes</h1>
-
-{% if commandes_data %}
-<div class="flex flex-col gap-6">
-    {% for item in commandes_data %}
-    {% with commande=item.commande total=item.total %}
-
-    <div class="card bg-base-100 shadow-md">
-        <div class="card-body">
-
+    {% if commandes %}
+    <div class="flex flex-col gap-4">
+        {% for commande in commandes %}
+        <div class="bg-base-100 border border-base-300 rounded-2xl p-5">
             <!-- En-tête -->
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div>
-                    <h2 class="text-lg font-extrabold text-secondary">Commande #{{ commande.id }}</h2>
-                    <p class="text-gray-400 text-sm">{{ commande.cree_le|date:"d/m/Y à H:i" }}</p>
+                    <h2 class="font-extrabold text-base-content">Commande #{{ commande.id }}</h2>
+                    <p class="text-base-content/50 text-sm">{{ commande.cree_le|date:"d/m/Y à H:i" }}</p>
                 </div>
-                {% if commande.statut == 'en_preparation' %}
-                <span class="badge badge-warning text-white badge-lg px-4 py-3 self-start sm:self-auto">{{ commande.get_statut_display }}</span>
-                {% elif commande.statut == 'en_livraison' %}
-                <span class="badge badge-info text-white badge-lg px-4 py-3 self-start sm:self-auto">{{ commande.get_statut_display }}</span>
-                {% elif commande.statut == 'livree' %}
-                <span class="badge badge-success text-white badge-lg px-4 py-3 self-start sm:self-auto">{{ commande.get_statut_display }}</span>
-                {% else %}
-                <span class="badge badge-error text-white badge-lg px-4 py-3 self-start sm:self-auto">{{ commande.get_statut_display }}</span>
-                {% endif %}
+                <div class="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+                    <span class="badge badge-outline rounded-full border-base-300 text-base-content">{{ commande.get_type_commande_display }}</span>
+                    {% if commande.statut == 'en_preparation' %}
+                    <span class="badge badge-warning rounded-full border-0 text-warning-content">{{ commande.get_statut_display }}</span>
+                    {% elif commande.statut == 'en_livraison' %}
+                    <span class="badge badge-info rounded-full border-0 text-info-content">{{ commande.get_statut_display }}</span>
+                    {% elif commande.statut == 'prete' %}
+                    <span class="badge badge-info rounded-full border-0 text-info-content">{{ commande.get_statut_display }}</span>
+                    {% elif commande.statut == 'livree' %}
+                    <span class="badge badge-success rounded-full border-0 text-success-content">{{ commande.get_statut_display }}</span>
+                    {% else %}
+                    <span class="badge badge-error rounded-full border-0 text-error-content">{{ commande.get_statut_display }}</span>
+                    {% endif %}
+                </div>
             </div>
 
-            <div class="divider my-2"></div>
+            <div class="divider my-3"></div>
 
             <!-- Liste des plats -->
             <ul class="flex flex-col gap-1">
                 {% for ligne in commande.lignes.all %}
-                <li class="text-sm text-secondary font-medium">
-                    {{ ligne.quantite }}x {{ ligne.plat.nom }} - <span class="text-primary font-bold">{{ ligne.total }} FCFA</span>
+                <li class="text-sm text-base-content font-medium flex justify-between gap-2">
+                    <span>{{ ligne.quantite }}x {{ ligne.plat.nom }}</span>
+                    <span class="text-primary font-bold shrink-0">{{ ligne.total|fcf }} FCFA</span>
                 </li>
                 {% endfor %}
             </ul>
 
-            <div class="divider my-2"></div>
+            <div class="divider my-3"></div>
 
-            <!-- Total + infos livraison -->
+            <!-- Total + infos -->
             <div class="flex justify-between items-center">
-                <span class="font-bold text-secondary">Total</span>
-                <span class="text-xl font-extrabold text-primary">{{ total }} FCFA</span>
+                <span class="font-bold text-base-content">Total</span>
+                <span class="text-xl font-extrabold text-primary">{{ commande.total|fcf }} FCFA</span>
             </div>
 
-            <div class="mt-2 text-sm text-gray-500 flex gap-4">
-                <span>📍 {{ commande.quartier }}</span>
-                <span>📞 {{ commande.adresse }}</span>
+            <div class="mt-2 text-sm text-base-content/60 flex flex-wrap gap-4">
+                {% if commande.est_sur_place %}
+                    <span>🍽️ Sur place{% if commande.nb_personnes %} · {{ commande.nb_personnes }} pers.{% endif %}</span>
+                {% else %}
+                    <span>📍 {{ commande.quartier }}{% if commande.adresse %} · {{ commande.adresse }}{% endif %}</span>
+                    {% if commande.telephone %}<span>📞 {{ commande.telephone }}</span>{% endif %}
+                    <span>🛵 {{ commande.frais_livraison|fcf }} FCFA livraison</span>
+                {% endif %}
             </div>
 
+            <div class="mt-4">
+                <a href="{% url 'suivi_commande' commande.id %}" class="btn btn-outline border-primary text-primary hover:bg-primary hover:text-primary-content rounded-xl w-full">
+                    Suivre ma commande
+                </a>
+            </div>
         </div>
+        {% endfor %}
     </div>
-
-    {% endwith %}
-    {% endfor %}
+    {% else %}
+    <div class="flex flex-col items-center justify-center py-24 text-center">
+        <span class="text-6xl mb-4">📭</span>
+        <h2 class="text-2xl font-bold text-base-content">Aucune commande pour l'instant</h2>
+        <p class="text-base-content/60 mt-2">Passez votre première commande dès maintenant !</p>
+        <a href="{% url 'liste_plats' %}" class="btn btn-primary mt-6 rounded-xl text-primary-content">Voir le menu</a>
+    </div>
+    {% endif %}
 </div>
-
-{% else %}
-<div class="flex flex-col items-center justify-center py-24 text-center">
-    <span class="text-6xl mb-4">📭</span>
-    <h2 class="text-2xl font-bold text-secondary">Aucune commande pour l'instant</h2>
-    <p class="text-gray-500 mt-2">Passez votre première commande dès maintenant !</p>
-    <a href="{% url 'liste_plats' %}" class="btn btn-primary mt-6 text-white">Voir le menu</a>
-</div>
-{% endif %}
-
 {% endblock %}

@@ -3,44 +3,130 @@
     themes: kiza --default, light, eco;
 }
 
-/* Thème d'origine Chez Kiza (Inspiré du Logo) */
+/* ============================================================
+   THÈME KIZA — tiré des couleurs du logo (crème + marron + rouge)
+   ============================================================ */
 @plugin "daisyui/theme" {
     name: "kiza";
     default: true;
     color-scheme: light;
-    --color-primary: #5C4033;       /* Rouge bordeaux / Marron logo */
-    --color-secondary: #3D2B1F;     /* Marron foncé */
-    --color-accent: #E63946;        /* Rouge cœur logo */
-    --color-base-100: #FCF5EA;      /* Blanc cassé / Crème logo */
-    --color-base-200: #F7E7D2;      /* Beige clair */
-    --color-base-300: #EAD6C0;      /* Beige moyen */
-    --color-base-content: #2F241D;  /* Texte sombre ultra-lisible */
+
+    --color-primary: #6B3E2E;        /* Marron bordeaux (logo) */
+    --color-primary-content: #FFF7EF;
+    --color-secondary: #3D2B1F;      /* Marron foncé (logo) */
+    --color-secondary-content: #FCF5EA;
+    --color-accent: #E63946;         /* Rouge cœur (logo) */
+    --color-accent-content: #FFFFFF;
+    --color-neutral: #2F241D;
+    --color-neutral-content: #FCF5EA;
+
+    --color-base-100: #FCF5EA;       /* Crème (logo) */
+    --color-base-200: #F6EDDB;
+    --color-base-300: #EBDFC6;
+    --color-base-content: #2A1F18;
+
+    --color-info: #0284C7;
+    --color-info-content: #FFFFFF;
+    --color-success: #15803D;
+    --color-success-content: #FFFFFF;
+    --color-warning: #B45309;
+    --color-warning-content: #FFFFFF;
+    --color-error: #DC2626;
+    --color-error-content: #FFFFFF;
+
+    --radius-selector: 0.75rem;
+    --radius-field: 0.75rem;
+    --radius-box: 1rem;
+
+    /* Taille / effets des composants (défauts daisyUI) :
+       indispensables au rendu des toggles, boutons, inputs... */
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+    --border: 1px;
+    --depth: 1;
+    --noise: 0;
 }
 
-/* Thème Clair Pur */
+/* ============================================================
+   THÈME CLAIR — blanc pur, style applications modernes
+   ============================================================ */
 @plugin "daisyui/theme" {
     name: "light";
     color-scheme: light;
-    --color-primary: #5C4033;
-    --color-secondary: #111827;
-    --color-accent: #D97706;
-    --color-base-100: #FFFFFF;      /* Blanc pur */
-    --color-base-200: #F3F4G6;
-    --color-base-300: #E5E7EB;
-    --color-base-content: #111827;  /* Texte Noir */
+
+    --color-primary: #5C4033;        /* Marron identité */
+    --color-primary-content: #FFFFFF;
+    --color-secondary: #18181B;      /* Presque noir */
+    --color-secondary-content: #FAFAFA;
+    --color-accent: #DC2626;         /* Rouge */
+    --color-accent-content: #FFFFFF;
+    --color-neutral: #1C1917;
+    --color-neutral-content: #FAFAFA;
+
+    --color-base-100: #FFFFFF;       /* Blanc pur */
+    --color-base-200: #F4F4F5;
+    --color-base-300: #E4E4E7;
+    --color-base-content: #18181B;
+
+    --color-info: #0284C7;
+    --color-info-content: #FFFFFF;
+    --color-success: #16A34A;
+    --color-success-content: #FFFFFF;
+    --color-warning: #D97706;
+    --color-warning-content: #FFFFFF;
+    --color-error: #DC2626;
+    --color-error-content: #FFFFFF;
+
+    --radius-selector: 0.75rem;
+    --radius-field: 0.75rem;
+    --radius-box: 1rem;
+
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+    --border: 1px;
+    --depth: 1;
+    --noise: 0;
 }
 
-/* Thème Éco Sombre (OLED) */
+/* ============================================================
+   THÈME ÉCO — vraiment économique (OLED pur, couleurs minimales)
+   ============================================================ */
 @plugin "daisyui/theme" {
     name: "eco";
     color-scheme: dark;
-    --color-primary: #5C4033;
-    --color-secondary: #1F2937;
+
+    --color-primary: #22C55E;        /* Vert (le seul point de couleur) */
+    --color-primary-content: #03130A;
+    --color-secondary: #111111;
+    --color-secondary-content: #E5E5E5;
     --color-accent: #22C55E;
-    --color-base-100: #000000;      /* Noir total pour économie d'énergie */
-    --color-base-200: #111827;
-    --color-base-300: #1F2937;
-    --color-base-content: #FFFFFF;  /* Texte Blanc */
+    --color-accent-content: #03130A;
+    --color-neutral: #161616;
+    --color-neutral-content: #E5E5E5;
+
+    --color-base-100: #000000;       /* Noir OLED : pixels éteints */
+    --color-base-200: #0A0A0A;
+    --color-base-300: #1E1E1E;
+    --color-base-content: #E5E5E5;   /* Gris clair : moins d'énergie que le blanc pur */
+
+    --color-info: #38BDF8;
+    --color-info-content: #0B1220;
+    --color-success: #4ADE80;
+    --color-success-content: #03130A;
+    --color-warning: #FBBF24;
+    --color-warning-content: #1C1604;
+    --color-error: #F87171;
+    --color-error-content: #1C0A0A;
+
+    --radius-selector: 0.75rem;
+    --radius-field: 0.75rem;
+    --radius-box: 1rem;
+
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+    --border: 1px;
+    --depth: 1;
+    --noise: 0;
 }
 
 @source "../../../**/*.{html,py,js}";

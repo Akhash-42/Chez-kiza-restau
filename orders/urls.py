@@ -7,5 +7,7 @@ urlpatterns = [
     path('modifier/<str:action>/<int:plat_id>/', views.modifier_panier, name='modifier_panier'),
     path('valider/', views.valider_commande, name='valider_commande'),
     path('confirmation/<int:commande_id>/', views.confirmation, name='confirmation'),
+    path('suivi/<int:commande_id>/', views.suivi_commande, name='suivi_commande'),
+    path('suivi/<int:commande_id>/json/', views.suivi_commande_json, name='suivi_commande_json'),
     path('mes-commandes/', views.mes_commandes, name='mes_commandes'),
 ]

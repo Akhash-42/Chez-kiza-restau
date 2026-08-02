@@ -4,126 +4,123 @@
 {% block title %}Chez Kiza - Découvrez nos saveurs authentiques{% endblock %}
 
 {% block content %}
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-    .font-inter { font-family: 'Inter', sans-serif; }
-    .fade-in-up {
-        animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-</style>
+<div class="space-y-10 lg:space-y-16 fade-in-up">
 
-<div class="font-inter antialiased w-full selection:bg-primary selection:text-white">
-
-    <section class="w-full py-12 lg:py-20 bg-secondary rounded-[24px] px-6 lg:px-12">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div class="lg:col-span-7 space-y-6 text-center lg:text-left fade-in-up">
-                <span class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider border border-primary/20">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <!-- ======================= HÉRO ======================= -->
+    <section class="relative overflow-hidden rounded-[28px] bg-secondary text-secondary-content">
+        <div class="absolute inset-0 opacity-[0.07] pointer-events-none" aria-hidden="true">
+            <img src="{% static 'images/img1.jpg' %}" alt="" class="w-full h-full object-cover">
+        </div>
+        <div class="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center p-6 sm:p-10 lg:p-14">
+            <div class="lg:col-span-7 space-y-5 text-center lg:text-left">
+                <span class="inline-flex items-center gap-2 bg-secondary-content/10 text-secondary-content px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
                     Restaurant de qualité
                 </span>
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-white">
-                    Découvrez les saveurs authentiques de <span class="text-primary">Chez Kiza</span>
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight text-secondary-content">
+                    Découvrez les saveurs authentiques de <span class="text-accent">Chez Kiza</span>
                 </h1>
-                <p class="text-gray-300 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
+                <p class="text-secondary-content/75 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed">
                     Préparés avec des ingrédients frais et beaucoup de passion, nos repas sont livrés rapidement directement chez vous.
                 </p>
-                
-                <div class="flex flex-col sm:flex-row gap-4 pt-2">
-                    <a href="/menu/" class="w-full sm:w-auto text-center px-8 py-4 btn btn-primary text-white font-semibold rounded-[22px] transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg">
+
+                <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                    <a href="{% url 'liste_plats' %}" class="btn btn-primary text-primary-content font-semibold rounded-xl">
                         Commander maintenant
                     </a>
-                    <a href="/menu/" class="w-full sm:w-auto text-center px-8 py-4 btn btn-outline text-white font-semibold rounded-[22px] transition-all duration-300 transform hover:-translate-y-0.5">
+                    <a href="{% url 'liste_plats' %}" class="btn btn-outline border-secondary-content/30 text-secondary-content hover:bg-secondary-content hover:text-secondary rounded-xl font-semibold">
                         Découvrir le menu
                     </a>
                 </div>
 
-                <div class="flex flex-wrap justify-center lg:justify-start gap-6 pt-8 border-t border-gray-700/50">
+                <div class="flex flex-wrap justify-center lg:justify-start gap-x-6 gap-y-3 pt-6 border-t border-secondary-content/15">
                     <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-accent" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
-                        <span class="text-sm font-medium text-white">4.9/5 Note globale</span>
+                        <span class="text-sm font-medium text-secondary-content/85">4.9/5 Note globale</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span class="text-sm font-medium text-gray-300">+2000 Commandes</span>
+                        <span class="text-sm font-medium text-secondary-content/85">+2000 Commandes</span>
                     </div>
                 </div>
             </div>
 
             <div class="lg:col-span-5 flex justify-center lg:justify-end">
-                <div class="relative w-full max-w-[420px] aspect-square rounded-[30px] overflow-hidden shadow-2xl group">
-                    <img src="{% static 'images/img1.jpg' %}" alt="Plat signature" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                <div class="relative w-full max-w-[420px] aspect-square rounded-[24px] overflow-hidden border-4 border-secondary-content/10">
+                    <img src="{% static 'images/img1.jpg' %}" alt="Plat signature" class="w-full h-full object-cover">
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="w-full py-16 px-4">
-        <div class="text-center max-w-3xl mx-auto mb-12">
-            <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Pourquoi choisir Chez Kiza ?</h2>
-            <div class="h-1 w-12 bg-primary mx-auto mt-4 rounded-full"></div>
+    <!-- ======================= POURQUOI CHEZ KIZA ======================= -->
+    <section class="space-y-8">
+        <div class="text-center max-w-3xl mx-auto">
+            <span class="text-[11px] uppercase tracking-[0.25em] text-primary font-semibold">Nos atouts</span>
+            <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-base-content mt-2">Pourquoi choisir Chez Kiza ?</h2>
         </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-secondary p-8 rounded-[24px] hover:scale-[1.02] transition-all duration-300 group">
-                <div class="w-12 h-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-base-100 border border-base-300 rounded-2xl p-6">
+                <div class="w-11 h-11 bg-primary/10 text-primary rounded-xl flex items-center justify-center mb-5">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold mb-2 text-white">Livraison rapide</h3>
-                <p class="text-gray-300 font-light leading-relaxed">Recevez votre repas chaud en quelques minutes.</p>
+                <h3 class="text-lg font-bold text-base-content mb-2">Livraison rapide</h3>
+                <p class="text-base-content/70 text-sm leading-relaxed">Recevez votre repas chaud en quelques minutes.</p>
             </div>
-            <div class="bg-secondary p-8 rounded-[24px] hover:scale-[1.02] transition-all duration-300 group">
-                <div class="w-12 h-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+            <div class="bg-base-100 border border-base-300 rounded-2xl p-6">
+                <div class="w-11 h-11 bg-primary/10 text-primary rounded-xl flex items-center justify-center mb-5">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold mb-2">Cuisine maison</h3>
-                <p class="text-gray-300 font-light leading-relaxed">Préparée chaque jour avec des produits frais.</p>
+                <h3 class="text-lg font-bold text-base-content mb-2">Cuisine maison</h3>
+                <p class="text-base-content/70 text-sm leading-relaxed">Préparée chaque jour avec des produits frais.</p>
             </div>
-            <div class="bg-secondary p-8 rounded-[24px] hover:scale-[1.02] transition-all duration-300 group">
-                <div class="w-12 h-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+            <div class="bg-base-100 border border-base-300 rounded-2xl p-6">
+                <div class="w-11 h-11 bg-primary/10 text-primary rounded-xl flex items-center justify-center mb-5">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4" />
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold mb-2">Qualité garantie</h3>
-                <p class="text-gray-300 font-light leading-relaxed">Des centaines de clients satisfaits.</p>
+                <h3 class="text-lg font-bold text-base-content mb-2">Qualité garantie</h3>
+                <p class="text-base-content/70 text-sm leading-relaxed">Des centaines de clients satisfaits.</p>
             </div>
         </div>
     </section>
 
-    <section class="w-full py-16 px-4">
-        <div class="text-center max-w-3xl mx-auto mb-12">
-            <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Nos plats les plus appréciés</h2>
-            <div class="h-1 w-12 bg-primary mx-auto mt-4 rounded-full"></div>
+    <!-- ======================= PLATS POPULAIRES ======================= -->
+    <section class="space-y-8">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="text-center sm:text-left">
+                <span class="text-[11px] uppercase tracking-[0.25em] text-primary font-semibold">Menu</span>
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-base-content mt-2">Nos plats les plus appréciés</h2>
+            </div>
+            <a href="{% url 'liste_plats' %}" class="btn btn-outline btn-sm rounded-xl">Voir tout le menu</a>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {% for img in "2345" %}
-            <div class="bg-secondary rounded-[24px] overflow-hidden group transition-all duration-300 hover:shadow-xl">
-                <div class="relative aspect-[4/3] overflow-hidden">
+            <div class="group bg-base-100 border border-base-300 rounded-2xl overflow-hidden transition-transform hover:-translate-y-0.5">
+                <div class="relative aspect-[4/3] overflow-hidden bg-base-200">
                     <img src="{% static 'images/img' %}{{ img }}.jpg" alt="Spécialité" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                 </div>
-                <div class="p-6 space-y-4">
+                <div class="p-5 space-y-3">
                     <div>
-                        <h3 class="text-lg font-bold text-white group-hover:text-primary transition-colors duration-300">Nom du plat</h3>
-                        <p class="text-sm text-gray-300 font-light mt-1 line-clamp-2">Petite description savoureuse du plat.</p>
+                        <h3 class="font-bold text-base-content">Nom du plat</h3>
+                        <p class="text-sm text-base-content/70 leading-relaxed">Petite description savoureuse du plat.</p>
                     </div>
-                    <div class="flex items-center justify-between pt-2 border-t border-gray-700/40">
-                        <span class="text-xl font-bold text-primary">Prix €</span>
-                        <a href="/menu/" class="btn btn-sm btn-primary text-white rounded-xl transition-all duration-300">
+                    <div class="flex items-center justify-between pt-3 border-t border-base-200">
+                        <span class="font-extrabold text-primary">Prix</span>
+                        <a href="{% url 'liste_plats' %}" class="btn btn-primary btn-sm rounded-xl text-primary-content">
                             Commander
                         </a>
                     </div>
@@ -133,71 +130,65 @@
         </div>
     </section>
 
-    <section class="w-full py-16 px-4">
-        <div class="text-center max-w-3xl mx-auto mb-16">
-            <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Comment ça marche ?</h2>
-            <div class="h-1 w-12 bg-primary mx-auto mt-4 rounded-full"></div>
+    <!-- ======================= COMMENT ÇA MARCHE ======================= -->
+    <section class="space-y-8">
+        <div class="text-center max-w-3xl mx-auto">
+            <span class="text-[11px] uppercase tracking-[0.25em] text-primary font-semibold">Simple & rapide</span>
+            <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-base-content mt-2">Comment ça marche ?</h2>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 max-w-5xl mx-auto">
-            <div class="flex flex-col items-center text-center group">
-                <div class="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center text-lg font-bold text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 mb-4 shadow-lg">
-                    01
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
+            {% for step in "123" %}
+            <div class="flex flex-col items-center text-center gap-3 p-6 border border-base-300 bg-base-100 rounded-2xl">
+                <div class="w-12 h-12 rounded-xl bg-primary text-primary-content flex items-center justify-center text-base font-extrabold">
+                    0{{ step }}
                 </div>
-                <h3 class="text-lg font-bold mb-2">① Choisissez votre plat</h3>
+                <h3 class="text-sm font-bold text-base-content">
+                    {% if step == "1" %}Choisissez votre plat{% elif step == "2" %}Passez votre commande{% else %}Recevez votre repas{% endif %}
+                </h3>
             </div>
-            <div class="flex flex-col items-center text-center group">
-                <div class="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center text-lg font-bold text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 mb-4 shadow-lg">
-                    02
-                </div>
-                <h3 class="text-lg font-bold mb-2">② Passez votre commande</h3>
-            </div>
-            <div class="flex flex-col items-center text-center group">
-                <div class="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center text-lg font-bold text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 mb-4 shadow-lg">
-                    03
-                </div>
-                <h3 class="text-lg font-bold mb-2">③ Recevez votre repas</h3>
-            </div>
+            {% endfor %}
         </div>
     </section>
 
-    <section class="w-full py-16 px-4">
-        <div class="bg-secondary rounded-[32px] overflow-hidden p-8 sm:p-12 lg:p-16">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="relative aspect-[4/3] rounded-[24px] overflow-hidden">
-                    <img src="{% static 'images/img6.jpg' %}" alt="Notre passion" class="w-full h-full object-cover">
-                </div>
-                <div class="space-y-6 text-center lg:text-left">
-                    <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Notre passion pour la cuisine</h2>
-                    <p class="text-gray-300 font-light leading-relaxed text-base sm:text-lg">
-                        Chez Kiza met chaque jour son savoir-faire au service de ses clients afin d'offrir une cuisine authentique, généreuse et préparée avec des ingrédients de qualité.
-                    </p>
-                    <div class="pt-4">
-                        <a href="/menu/" class="btn btn-primary text-white px-6 rounded-xl transition-all duration-300">
-                            En savoir plus
-                        </a>
-                    </div>
+    <!-- ======================= PASSION ======================= -->
+    <section class="bg-secondary text-secondary-content rounded-[28px] overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center p-6 sm:p-10 lg:p-14">
+            <div class="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                <img src="{% static 'images/img6.jpg' %}" alt="Notre passion" class="w-full h-full object-cover">
+            </div>
+            <div class="space-y-5 text-center lg:text-left">
+                <span class="text-[11px] uppercase tracking-[0.25em] text-accent font-semibold">Notre histoire</span>
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-secondary-content">Notre passion pour la cuisine</h2>
+                <p class="text-secondary-content/75 leading-relaxed">
+                    Chez Kiza met chaque jour son savoir-faire au service de ses clients afin d'offrir une cuisine authentique, généreuse et préparée avec des ingrédients de qualité.
+                </p>
+                <div class="pt-2">
+                    <a href="{% url 'liste_plats' %}" class="btn btn-primary text-primary-content rounded-xl font-semibold">En savoir plus</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="w-full py-16 px-4">
-        <div class="text-center max-w-3xl mx-auto mb-12">
-            <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Ce que disent nos clients</h2>
-            <div class="h-1 w-12 bg-primary mx-auto mt-4 rounded-full"></div>
+    <!-- ======================= TÉMOIGNAGES ======================= -->
+    <section class="space-y-8">
+        <div class="text-center max-w-3xl mx-auto">
+            <span class="text-[11px] uppercase tracking-[0.25em] text-primary font-semibold">Témoignages</span>
+            <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-base-content mt-2">Ce que disent nos clients</h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             {% for avatar in "123" %}
-            <div class="bg-secondary p-8 rounded-[24px] flex flex-col justify-between space-y-6">
-                <p class="text-slate-600 font-light italic leading-relaxed">"Commentaire client authentique sur l'expérience culinaire unique proposée par le restaurant."</p>
-                <div class="flex items-center gap-4">
-                    <img src="{% static 'images/avatar' %}{{ avatar }}.jpg" alt="Client" class="w-11 h-11 rounded-full object-cover bg-gray-800">
+            <div class="bg-base-100 border border-base-300 rounded-2xl p-6 flex flex-col justify-between space-y-5">
+                <p class="text-base-content/70 italic leading-relaxed">"Commentaire client authentique sur l'expérience culinaire unique proposée par le restaurant."</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full overflow-hidden bg-base-200 flex items-center justify-center">
+                        <img src="{% static 'images/avatar' %}{{ avatar }}.jpg" alt="Client" class="w-full h-full object-cover">
+                    </div>
                     <div>
-                        <h4 class="font-bold text-sm">Nom Client</h4>
-                        <div class="flex text-primary mt-0.5">
-                            {% for i in "12345" %}<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3-.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>{% endfor %}
+                        <h4 class="font-bold text-sm text-base-content">Nom Client</h4>
+                        <div class="flex text-accent mt-0.5">
+                            {% for i in "12345" %}<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>{% endfor %}
                         </div>
                     </div>
                 </div>
@@ -206,21 +197,28 @@
         </div>
     </section>
 
-    <section class="w-full py-16 px-4">
-        <div class="relative bg-marron rounded-[32px] p-8 sm:p-12 lg:p-16 text-center text-white overflow-hidden shadow-2xl">
-            <div class="relative z-10 max-w-2xl mx-auto space-y-6">
-                <h2 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Prêt à savourer nos meilleurs plats ?</h2>
-                <p class="text-gray-200 font-light text-base sm:text-lg">
-                    Passez votre commande en quelques clics et faites-vous livrer rapidement.
-                </p>
-                <div class="pt-4">
-                    <a href="/menu/" class="w-full sm:w-auto btn btn-primary text-white font-bold rounded-[22px] transition-all duration-300 shadow-xl">
-                        Commander maintenant
-                    </a>
-                </div>
+    <!-- ======================= CTA ======================= -->
+    <section class="bg-primary text-primary-content rounded-[28px] text-center p-8 sm:p-12 lg:p-16">
+        <div class="max-w-2xl mx-auto space-y-5">
+            <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight">Prêt à savourer nos meilleurs plats ?</h2>
+            <p class="text-primary-content/80">
+                Passez votre commande en quelques clics et faites-vous livrer rapidement.
+            </p>
+            <div class="pt-2">
+                <a href="{% url 'liste_plats' %}" class="btn bg-base-100 text-primary border-none hover:bg-base-200 font-bold rounded-xl">Commander maintenant</a>
             </div>
         </div>
     </section>
 
 </div>
+
+<style>
+    .fade-in-up {
+        animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(24px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
 {% endblock %}

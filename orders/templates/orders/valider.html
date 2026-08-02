@@ -1,56 +1,159 @@
 {% extends 'base.html' %}
+{% load money %}
 
 {% block title %}Valider la commande - Chez Kiza{% endblock %}
 
 {% block content %}
+<div class="max-w-md mx-auto">
+    <div class="text-center mb-6">
+        <span class="text-[11px] uppercase tracking-[0.25em] text-primary font-semibold">Commande</span>
+        <h1 class="text-3xl font-extrabold tracking-tight text-base-content mt-2">Finaliser ma commande</h1>
+        <p class="text-base-content/60 text-sm mt-1">Livraison à domicile ou sur place</p>
+    </div>
 
-<div class="flex items-center justify-center px-4 py-10">
-    <div class="card w-full max-w-md shadow-2xl bg-base-100">
-        <div class="card-body">
+    {% if errors %}
+    <div class="alert alert-error mb-4 rounded-xl">
+        <ul class="list-disc list-inside text-sm">
+            {% for error in errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
 
-            <h2 class="text-2xl font-extrabold text-secondary text-center mb-4">📦 Confirmer la livraison</h2>
-            <p class="text-gray-500 text-sm text-center mb-6">Renseignez vos informations de livraison</p>
-
-            <form method="POST">
-                {% csrf_token %}
-
-                <div class="form-control mb-4">
-                    <label class="label">
-                        <span class="label-text font-semibold text-secondary">Quartier</span>
-                    </label>
-                    <input
-                        type="text"
-                        name="quartier"
-                        class="input input-bordered w-full focus:input-primary"
-                        placeholder="Ex: Cocody, Yopougon..."
-                        required
-                    >
-                </div>
-
-                <div class="form-control mb-4">
-                    <label class="label">
-                        <span class="label-text font-semibold text-secondary">Numéro de téléphone</span>
-                    </label>
-                    <input
-                        type="text"
-                        name="numero"
-                        class="input input-bordered w-full focus:input-primary"
-                        placeholder="Ex: +225 07 00 00 00 00"
-                        required
-                    >
-                </div>
-
-                <button type="submit" class="btn btn-primary w-full text-white mt-2">
-                    Confirmer la commande
-                </button>
-            </form>
-
-            <a href="{% url 'panier' %}" class="btn btn-ghost w-full mt-2 text-secondary">
-                ← Retour au panier
-            </a>
-
+    <div class="bg-base-100 border border-base-300 rounded-2xl p-5 lg:p-6">
+        <!-- Choix du mode de commande -->
+        <div class="grid grid-cols-2 gap-3 mb-6" id="mode-selector">
+            <label class="mode-card cursor-pointer rounded-xl border-2 p-4 text-center transition-colors border-primary bg-primary/10">
+                <input type="radio" name="mode" value="livraison" class="hidden" {% if type_commande != 'sur_place' %}checked{% endif %}>
+                <span class="block text-2xl mb-1">🛵</span>
+                <span class="block font-bold text-base-content">Livraison</span>
+                <span class="block text-xs text-base-content/60 mt-1">À domicile</span>
+            </label>
+            <label class="mode-card cursor-pointer rounded-xl border-2 p-4 text-center transition-colors border-base-300">
+                <input type="radio" name="mode" value="sur_place" class="hidden" {% if type_commande == 'sur_place' %}checked{% endif %}>
+                <span class="block text-2xl mb-1">🍽️</span>
+                <span class="block font-bold text-base-content">Sur place</span>
+                <span class="block text-xs text-base-content/60 mt-1">Au restaurant</span>
+            </label>
         </div>
+
+        <form method="POST" id="checkout-form" class="space-y-4">
+            {% csrf_token %}
+            <input type="hidden" name="type_commande" id="type-commande-input" value="{% if type_commande == 'sur_place' %}sur_place{% else %}livraison{% endif %}">
+
+            <!-- Champs livraison -->
+            <div id="fields-livraison" {% if type_commande == 'sur_place' %}class="hidden"{% endif %} class="space-y-4">
+                <div>
+                    <label class="label px-0 py-0 mb-1.5">
+                        <span class="label-text font-semibold text-base-content">Quartier</span>
+                    </label>
+                    <input type="text" name="quartier" class="input input-bordered w-full rounded-xl" placeholder="Ex: Cocody, Yopougon...">
+                </div>
+                <div>
+                    <label class="label px-0 py-0 mb-1.5">
+                        <span class="label-text font-semibold text-base-content">Adresse</span>
+                    </label>
+                    <input type="text" name="adresse" class="input input-bordered w-full rounded-xl" placeholder="Ex: Rue des Jardins, lot 12">
+                </div>
+                <div>
+                    <label class="label px-0 py-0 mb-1.5">
+                        <span class="label-text font-semibold text-base-content">Téléphone</span>
+                    </label>
+                    <input type="tel" name="telephone" class="input input-bordered w-full rounded-xl" placeholder="Ex: +225 07 00 00 00 00">
+                </div>
+            </div>
+
+            <!-- Champs sur place -->
+            <div id="fields-sur-place" {% if type_commande != 'sur_place' %}class="hidden"{% endif %}>
+                <div>
+                    <label class="label px-0 py-0 mb-1.5">
+                        <span class="label-text font-semibold text-base-content">Nombre de personnes</span>
+                    </label>
+                    <input type="number" name="nb_personnes" min="1" max="20" class="input input-bordered w-full rounded-xl" placeholder="Ex: 4">
+                </div>
+                <p class="text-sm text-base-content/60 mt-3">Rendez-vous directement au restaurant : votre commande sera prête à votre arrivée.</p>
+            </div>
+
+            <!-- Récapitulatif -->
+            <div class="bg-base-200 rounded-xl p-4 space-y-2 text-sm">
+                {% for item in cart.items %}
+                <div class="flex justify-between gap-2">
+                    <span class="text-base-content font-medium truncate">{{ item.quantite }}x {{ item.plat.nom }}</span>
+                    <span class="font-semibold text-primary shrink-0">{{ item.sous_total|fcf }} FCFA</span>
+                </div>
+                {% endfor %}
+                <div class="divider my-1"></div>
+                <div class="flex justify-between">
+                    <span class="text-base-content/60">Sous-total</span>
+                    <span class="font-semibold text-base-content" id="recap-subtotal">{{ cart.subtotal|fcf }} FCFA</span>
+                </div>
+                <div class="flex justify-between" id="recap-delivery-row">
+                    <span class="text-base-content/60">Frais de livraison</span>
+                    <span class="font-semibold text-base-content" id="recap-delivery">{{ cart.delivery|fcf }} FCFA</span>
+                </div>
+                <div class="flex justify-between text-base pt-1 border-t border-base-300">
+                    <span class="font-extrabold text-base-content">Total</span>
+                    <span class="font-extrabold text-primary text-lg" id="recap-total">{{ cart.total|fcf }} FCFA</span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-full rounded-xl text-primary-content text-lg">
+                Confirmer la commande
+            </button>
+        </form>
+
+        <a href="{% url 'panier' %}" class="btn btn-ghost w-full mt-2 rounded-xl text-base-content">
+            ← Retour au panier
+        </a>
     </div>
 </div>
 
+<script>
+    const deliveryFee = Number('{{ delivery_fee|default:1500 }}');
+    const subtotal = Number('{{ cart.subtotal }}');
+    const deliveryRow = document.getElementById('recap-delivery-row');
+    const deliveryVal = document.getElementById('recap-delivery');
+    const totalVal = document.getElementById('recap-total');
+
+    function updateMode(mode) {
+        const livraison = mode === 'livraison';
+        document.getElementById('type-commande-input').value = mode;
+        document.getElementById('fields-livraison').classList.toggle('hidden', !livraison);
+        document.getElementById('fields-sur-place').classList.toggle('hidden', livraison);
+
+        const fee = livraison ? deliveryFee : 0;
+        if (livraison) {
+            deliveryRow.classList.remove('hidden');
+            deliveryVal.textContent = `${fee} FCFA`;
+        } else {
+            deliveryRow.classList.add('hidden');
+        }
+        totalVal.textContent = `${subtotal + fee} FCFA`;
+    }
+
+    document.querySelectorAll('.mode-card').forEach(card => {
+        card.addEventListener('click', function () {
+            const input = this.querySelector('input[name="mode"]');
+            document.querySelectorAll('.mode-card').forEach(c => {
+                c.classList.remove('border-primary', 'bg-primary/10');
+                c.classList.add('border-base-300');
+            });
+            this.classList.add('border-primary', 'bg-primary/10');
+            this.classList.remove('border-base-300');
+            updateMode(input.value);
+        });
+    });
+
+    (function () {
+        const active = document.querySelector('.mode-card input:checked')?.value || 'livraison';
+        document.querySelectorAll('.mode-card').forEach(c => {
+            const checked = c.querySelector('input').checked;
+            c.classList.toggle('border-primary', checked);
+            c.classList.toggle('bg-primary/10', checked);
+            c.classList.toggle('border-base-300', !checked);
+        });
+        updateMode(active);
+    })();
+</script>
 {% endblock %}

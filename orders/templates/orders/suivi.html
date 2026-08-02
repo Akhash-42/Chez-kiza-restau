@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load money %}
+
+{% block title %}Suivi de la commande #{{ commande.id }} - Chez Kiza{% endblock %}
+
+{% block content %}
+<style>
+    #timeline .step-dot { background: var(--color-base-300); color: var(--color-base-content); }
+    #timeline .step-dot.done { background: var(--color-success); color: var(--color-success-content); }
+</style>
+<div class="max-w-2xl mx-auto space-y-6">
+    <div class="text-center">
+        <span class="text-[11px] uppercase tracking-[0.25em] text-primary font-semibold">Suivi en temps réel</span>
+        <h1 class="text-3xl font-extrabold tracking-tight text-base-content mt-2">Commande #{{ commande.id }}</h1>
+        <p class="text-base-content/60 mt-1">{{ commande.cree_le|date:"d/m/Y à H:i" }}</p>
+    </div>
+
+    <!-- Bandeau statut -->
+    <div class="bg-base-100 border border-base-300 rounded-2xl p-6 text-center">
+        <span id="status-badge" class="badge badge-lg px-6 py-4 border-0
+            {% if commande.statut == 'en_preparation' %}badge-warning text-warning-content
+            {% elif commande.statut == 'en_livraison' %}badge-info text-info-content
+            {% elif commande.statut == 'prete' %}badge-info text-info-content
+            {% elif commande.statut == 'livree' %}badge-success text-success-content
+            {% else %}badge-error text-error-content{% endif %}">
+            {{ commande.get_statut_display }}
+        </span>
+        <p id="status-message" class="text-base-content/60 text-sm mt-3">
+            {% if commande.statut == 'en_preparation' %}
+                Notre cuisinier prépare votre commande...
+            {% elif commande.statut == 'en_livraison' %}
+                Votre commande est en route !
+            {% elif commande.statut == 'prete' %}
+                Votre commande est prête, passez au comptoir.
+            {% elif commande.statut == 'livree' %}
+                Bon appétit ! Merci pour votre commande.
+            {% elif commande.statut == 'annulee' %}
+                Cette commande a été annulée.
+            {% endif %}
+        </p>
+    </div>
+
+    <!-- Détails -->
+    <div class="bg-base-100 border border-base-300 rounded-2xl p-5 lg:p-6">
+        <h2 class="font-bold text-base-content mb-3">Détails de la commande</h2>
+        <ul class="flex flex-col gap-1 mb-4">
+            {% for ligne in commande.lignes.all %}
+            <li class="text-sm text-base-content font-medium flex justify-between gap-2">
+                <span>{{ ligne.quantite }}x {{ ligne.plat.nom }}</span>
+                <span class="text-primary font-bold shrink-0">{{ ligne.total|fcf }} FCFA</span>
+            </li>
+            {% endfor %}
+        </ul>
+        <div class="divider my-1"></div>
+        <div class="flex justify-between text-sm">
+            <span class="text-base-content/60">Sous-total</span>
+            <span class="text-base-content">{{ commande.sous_total|fcf }} FCFA</span>
+        </div>
+        <div class="flex justify-between text-sm">
+            <span class="text-base-content/60">{% if commande.est_sur_place %}Sur place{% else %}Frais de livraison{% endif %}</span>
+            <span class="text-base-content">{{ commande.frais_livraison|fcf }} FCFA</span>
+        </div>
+        <div class="flex justify-between font-extrabold text-base-content mt-2">
+            <span>Total</span>
+            <span class="text-primary">{{ commande.total|fcf }} FCFA</span>
+        </div>
+        {% if not commande.est_sur_place %}
+        <p class="text-sm text-base-content/60 mt-3">
+            📍 {{ commande.quartier }}{% if commande.adresse %} · {{ commande.adresse }}{% endif %}
+            {% if commande.telephone %} · 📞 {{ commande.telephone }}{% endif %}
+        </p>
+        {% else %}
+        <p class="text-sm text-base-content/60 mt-3">🍽️ À venir chercher sur place{% if commande.nb_personnes %} · {{ commande.nb_personnes }} pers.{% endif %}</p>
+        {% endif %}
+    </div>
+
+    <!-- Frise chronologique -->
+    <div class="bg-base-100 border border-base-300 rounded-2xl p-5 lg:p-6">
+        <h2 class="font-bold text-base-content mb-6">Progression</h2>
+        {% if commande.statut == 'annulee' %}
+        <div class="alert alert-error rounded-xl text-error-content">
+            <span>Commande annulée. Contactez le restaurant pour plus d'informations.</span>
+        </div>
+        {% else %}
+        <ol id="timeline" class="flex flex-col gap-6">
+            <li class="step-item" data-statut="en_preparation">
+                <div class="flex items-center gap-4">
+                    <div class="step-dot w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-bold">1</div>
+                    <div>
+                        <p class="font-bold text-base-content">Commande reçue</p>
+                        <p class="text-sm text-base-content/60">Nous avons bien reçu votre commande.</p>
+                    </div>
+                </div>
+            </li>
+            {% if commande.est_sur_place %}
+            <li class="step-item" data-statut="prete">
+                <div class="flex items-center gap-4">
+                    <div class="step-dot w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-bold">2</div>
+                    <div>
+                        <p class="font-bold text-base-content">Commande prête</p>
+                        <p class="text-sm text-base-content/60">Votre commande est prête au comptoir.</p>
+                    </div>
+                </div>
+            </li>
+            {% else %}
+            <li class="step-item" data-statut="en_livraison">
+                <div class="flex items-center gap-4">
+                    <div class="step-dot w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-bold">2</div>
+                    <div>
+                        <p class="font-bold text-base-content">En livraison</p>
+                        <p class="text-sm text-base-content/60">Votre livreur est en route.</p>
+                    </div>
+                </div>
+            </li>
+            {% endif %}
+            <li class="step-item" data-statut="livree">
+                <div class="flex items-center gap-4">
+                    <div class="step-dot w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-bold">3</div>
+                    <div>
+                        <p class="font-bold text-base-content">Commande livrée / servie</p>
+                        <p class="text-sm text-base-content/60">Votre repas est entre vos mains.</p>
+                    </div>
+                </div>
+            </li>
+        </ol>
+        {% endif %}
+    </div>
+
+    <div class="text-center flex flex-col sm:flex-row justify-center gap-2">
+        <a href="{% url 'mes_commandes' %}" class="btn btn-ghost rounded-xl text-base-content">← Mes commandes</a>
+        <a href="{% url 'liste_plats' %}" class="btn btn-ghost rounded-xl text-base-content">Retour au menu</a>
+    </div>
+</div>
+
+<script>
+    const COMMANDE_URL = "{% url 'suivi_commande_json' commande.id %}";
+
+    const statutOrder = {
+        'en_preparation': 1,
+        'en_livraison': 2,
+        'prete': 2,
+        'livree': 3,
+    };
+    const currentStatut = "{{ commande.statut }}";
+
+    function refreshSuivi() {
+        fetch(COMMANDE_URL, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            .then(r => r.json())
+            .then(data => {
+                if (!data) return;
+                const badge = document.getElementById('status-badge');
+                if (!badge) return;
+                badge.textContent = data.statut_display;
+                badge.className = 'badge badge-lg px-6 py-4 border-0 ' +
+                    (data.statut === 'en_preparation' ? 'badge-warning text-warning-content'
+                    : (data.statut === 'en_livraison' || data.statut === 'prete') ? 'badge-info text-info-content'
+                    : data.statut === 'livree' ? 'badge-success text-success-content'
+                    : 'badge-error text-error-content');
+
+                const msg = document.getElementById('status-message');
+                if (msg) {
+                    msg.textContent = data.statut === 'en_preparation' ? 'Notre cuisinier prépare votre commande...'
+                        : data.statut === 'en_livraison' ? 'Votre commande est en route !'
+                        : data.statut === 'prete' ? 'Votre commande est prête, passez au comptoir.'
+                        : data.statut === 'livree' ? 'Bon appétit ! Merci pour votre commande.'
+                        : 'Cette commande a été annulée.';
+                }
+
+                updateSteps(data.statut);
+            })
+            .catch(() => {});
+    }
+
+    function updateSteps(statut) {
+        const idx = statutOrder[statut];
+        document.querySelectorAll('#timeline .step-item').forEach((li, i) => {
+            const dot = li.querySelector('.step-dot');
+            const desc = li.querySelector('.font-bold');
+            if (statut === 'annulee') return;
+            if (i + 1 <= idx) {
+                dot.classList.add('done');
+                dot.textContent = '✓';
+                desc?.classList.remove('opacity-40');
+            } else {
+                dot.classList.remove('done');
+                dot.textContent = String(i + 1);
+                desc?.classList.add('opacity-40');
+            }
+        });
+    }
+
+    updateSteps(currentStatut);
+
+    if (!['livree', 'annulee'].includes(currentStatut)) {
+        setInterval(refreshSuivi, 5000);
+    }
+</script>
+{% endblock %}

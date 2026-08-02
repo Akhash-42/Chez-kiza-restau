@@ -1,4 +1,4 @@
-{% load static tailwind_tags %}
+{% load static tailwind_tags money %}
 <!DOCTYPE html>
 <html lang="fr" data-theme="kiza">
 <head>
@@ -7,143 +7,32 @@
     <title>{% block title %}Chez Kiza{% endblock %}</title>
     {% tailwind_css %}
     <style>
-        :root {
-            --site-bg: #fcf5ea;
-            --site-surface: #fffdf9;
-            --site-surface-2: #f7e7d2;
-            --site-text: #2f241d;
-            --site-muted: #6b7280;
-            --site-primary: #5c4033;
-            --site-secondary: #3d2b1f;
-            --site-accent: #e63946;
-        }
+        body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 
-        html[data-theme="kiza"] {
-            --color-primary: #5c4033;
-            --color-secondary: #3d2b1f;
-            --color-accent: #e63946;
-            --color-base-100: #fcf5ea;
-            --color-base-200: #f7e7d2;
-            --color-base-300: #ead6c0;
-            --color-base-content: #2f241d;
-            --site-bg: #fcf5ea;
-            --site-surface: #fffdf9;
-            --site-surface-2: #f7e7d2;
-            --site-text: #2f241d;
-            --site-muted: #6b7280;
-            --site-primary: #5c4033;
-            --site-secondary: #3d2b1f;
-            --site-accent: #e63946;
-        }
-
-        html[data-theme="light"] {
-            --color-primary: #5c4033;
-            --color-secondary: #111827;
-            --color-accent: #d97706;
-            --color-base-100: #ffffff;
-            --color-base-200: #f3f4f6;
-            --color-base-300: #e5e7eb;
-            --color-base-content: #111827;
-            --site-bg: #ffffff;
-            --site-surface: #ffffff;
-            --site-surface-2: #f3f4f6;
-            --site-text: #111827;
-            --site-muted: #4b5563;
-            --site-primary: #5c4033;
-            --site-secondary: #111827;
-            --site-accent: #d97706;
-        }
-
-        html[data-theme="eco"] {
-            --color-primary: #f59e0b;
-            --color-secondary: #0f172a;
-            --color-accent: #22c55e;
-            --color-base-100: #0b1220;
-            --color-base-200: #111827;
-            --color-base-300: #1f2937;
-            --color-base-content: #f8fafc;
-            --site-bg: #0b1220;
-            --site-surface: #111827;
-            --site-surface-2: #1f2937;
-            --site-text: #f8fafc;
-            --site-muted: #cbd5e1;
-            --site-primary: #f59e0b;
-            --site-secondary: #0f172a;
-            --site-accent: #22c55e;
-        }
-
-        body {
-            background-color: var(--site-bg);
-            color: var(--site-text);
-        }
-
-        /* Forcer la couleur adaptative des textes descriptifs ou muets selon le thème actif */
-        html[data-theme="kiza"] .text-gray-500, html[data-theme="kiza"] .text-gray-400 { color: #6b7280 !important; }
-        html[data-theme="light"] .text-gray-500, html[data-theme="light"] .text-gray-400 { color: #4b5563 !important; }
-        html[data-theme="eco"] .text-gray-500, html[data-theme="eco"] .text-gray-400 { color: #cbd5e1 !important; }
-
-        html[data-theme="light"] .text-gray-300,
-        html[data-theme="light"] .text-gray-400,
-        html[data-theme="light"] .text-gray-500,
-        html[data-theme="light"] .text-slate-600,
-        html[data-theme="eco"] .text-gray-300,
-        html[data-theme="eco"] .text-gray-400,
-        html[data-theme="eco"] .text-gray-500,
-        html[data-theme="eco"] .text-slate-600 {
-            color: var(--site-text) !important;
-        }
-
-        html[data-theme="eco"] .text-gray-300,
-        html[data-theme="eco"] .text-gray-400,
-        html[data-theme="eco"] .text-gray-500,
-        html[data-theme="eco"] .text-slate-600,
-        html[data-theme="eco"] .text-slate-700 {
-            color: #f8fafc !important;
-        }
-
-        html[data-theme="light"] .text-white,
-        html[data-theme="eco"] .text-white {
-            color: #ffffff !important;
-        }
-
-        .flying-cart {
-            position: fixed;
-            font-size: 1.5rem;
-            pointer-events: none;
-            z-index: 9999;
-            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            opacity: 1;
-        }
-        .flying-cart.animate {
-            opacity: 0;
-            transform: scale(0.3);
-        }
-        #panier-icon, #panier-icon-mobile {
-            position: relative;
-        }
+        /* Badge compteur panier */
         .badge-count {
             position: absolute;
-            top: -4px;
-            right: -4px;
-            background: #E63946;
-            color: white;
+            top: 2px;
+            right: 2px;
+            background: var(--color-accent);
+            color: var(--color-accent-content);
             border-radius: 9999px;
-            font-size: 0.65rem;
-            font-weight: bold;
-            min-width: 18px;
-            height: 18px;
+            font-size: 0.625rem;
+            font-weight: 700;
+            min-width: 17px;
+            height: 17px;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 0 4px;
+            box-shadow: 0 0 0 2px var(--color-base-100);
         }
-        .bg-marron {
-            background-color: #5C4033;
-        }
+
+        /* Drawer panier */
         #cart-drawer-overlay {
             opacity: 0;
             pointer-events: none;
-            transition: opacity 300ms ease;
+            transition: opacity 250ms ease;
         }
         #cart-drawer-overlay.open {
             opacity: 1;
@@ -151,18 +40,13 @@
         }
         #cart-drawer {
             transform: translateY(100%);
-            transition: transform 300ms ease;
+            transition: transform 300ms cubic-bezier(0.32, 0.72, 0, 1);
         }
         #cart-drawer.open {
             transform: translateY(0);
         }
-        @media(min-width: 1024px) {
+        @media (min-width: 1024px) {
             #cart-drawer {
-                width: 420px;
-                right: 0;
-                left: auto;
-                top: 0;
-                bottom: 0;
                 transform: translateX(100%);
             }
             #cart-drawer.open {
@@ -170,296 +54,281 @@
             }
         }
         .cart-item-image {
-            min-width: 72px;
-            min-height: 72px;
-            max-width: 72px;
-            max-height: 72px;
-        }
-        .compact-menu .card {
-            padding: 1rem;
-        }
-        .compact-menu .card-body {
-            gap: 0.75rem;
-        }
-        .compact-menu .card img {
-            height: 180px;
-        }
-        .hide-spicy .card[data-spicy="true"] {
-            display: none !important;
-        }
-        .hide-spicy .spicy-badge {
-            display: none !important;
-        }
-        .allergen-chip {
-            display: none;
-            opacity: 0;
-            transition: opacity 200ms ease;
-        }
-        .show-allergens .allergen-chip {
-            display: inline-flex !important;
-            opacity: 1;
+            width: 68px;
+            height: 68px;
+            flex-shrink: 0;
+            object-fit: cover;
+            border-radius: 0.85rem;
         }
 
-        html[data-theme="kiza"] {
-            background-color: #fcf5ea;
-            color: #2f241d;
-        }
-        html[data-theme="kiza"] .bg-secondary {
-            background-color: #3d2b1f !important;
-        }
-        html[data-theme="kiza"] .text-secondary {
-            color: #3d2b1f !important;
-        }
-        html[data-theme="kiza"] .btn-primary {
-            background-color: #5c4033 !important;
-            border-color: #5c4033 !important;
-            color: white !important;
-        }
+        /* Préférences menu */
+        .hide-spicy [data-spicy="true"] { display: none !important; }
+        .allergen-chip { display: none; }
+        .show-allergens .allergen-chip { display: inline-flex !important; }
+        .compact-menu .card-image { height: 10rem; }
 
-        html[data-theme="light"] {
-            background-color: #ffffff;
-            color: #111827;
+        /* Toggle : visibilité garantie sur tous les thèmes */
+        .toggle {
+            border-color: var(--color-base-300);
         }
-        html[data-theme="light"] .bg-secondary {
-            background-color: #111827 !important;
+        .toggle:before {
+            background-color: var(--color-base-content);
         }
-        html[data-theme="light"] .text-secondary {
-            color: #111827 !important;
+        .toggle:checked,
+        .toggle[aria-checked="true"] {
+            background-color: var(--color-primary);
+            border-color: var(--color-primary);
         }
-        html[data-theme="light"] .btn-primary {
-            background-color: #5c4033 !important;
-            border-color: #5c4033 !important;
-            color: white !important;
-        }
-
-        html[data-theme="eco"] {
-            background-color: #0b1220;
-            color: #f8fafc;
-        }
-        html[data-theme="eco"] .bg-secondary {
-            background-color: #111827 !important;
-        }
-        html[data-theme="eco"] .text-secondary {
-            color: #f8fafc !important;
-        }
-        html[data-theme="eco"] .btn-primary {
-            background-color: #22c55e !important;
-            border-color: #22c55e !important;
-            color: white !important;
+        .toggle:checked:before,
+        .toggle[aria-checked="true"]:before {
+            background-color: var(--color-primary-content);
         }
     </style>
     <script>
-        window.applyTheme = window.applyTheme || function(themeName){
+        window.applyTheme = window.applyTheme || function (themeName) {
             const theme = themeName || localStorage.getItem('kiza_theme') || 'kiza';
             document.documentElement.dataset.theme = theme;
             localStorage.setItem('kiza_theme', theme);
         };
-        window.applyMenuPreferences = window.applyMenuPreferences || function(){
-            const compact = localStorage.getItem('kiza_compact_menu') === '1';
-            const hideSpicy = localStorage.getItem('kiza_hide_spicy') === '1';
-            const showAllergens = localStorage.getItem('kiza_show_allergens') === '1';
-            document.body.classList.toggle('compact-menu', compact);
-            document.body.classList.toggle('hide-spicy', hideSpicy);
-            document.body.classList.toggle('show-allergens', showAllergens);
+        window.applyMenuPreferences = window.applyMenuPreferences || function () {
+            document.body.classList.toggle('hide-spicy', localStorage.getItem('kiza_hide_spicy') === '1');
+            document.body.classList.toggle('show-allergens', localStorage.getItem('kiza_show_allergens') === '1');
+            document.body.classList.toggle('compact-menu', localStorage.getItem('kiza_compact_menu') === '1');
         };
     </script>
 </head>
 
-<body class="min-h-screen flex flex-col bg-base-100 pb-16 md:pb-0">
+<body class="min-h-screen flex flex-col bg-base-200 pb-24 lg:pb-0">
 
-    <div class="navbar bg-secondary text-white shadow-md px-4">
-        <div class="navbar-start w-auto flex items-center justify-start shrink-0">
-            <a href="{% url 'landing' %}" class="flex items-center gap-3 shrink-0">
-                <img src="{% static 'menu/images/logo.jpg' %}" alt="Chez Kiza" class="h-10 w-10 rounded-full object-cover">
-                <span class="text-xl font-bold text-secondary adapt-text whitespace-nowrap">Chez Kiza</span>
+    {% csrf_token %}
+
+    <!-- ======================= EN-TÊTE (sticky) ======================= -->
+    <header class="sticky top-0 z-40 border-b border-base-300 bg-base-100/85 backdrop-blur-md">
+        <div class="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
+            <a href="{% url 'landing' %}" class="flex items-center gap-2.5 shrink-0">
+                <img src="{% static 'menu/images/logo.jpg' %}" alt="Chez Kiza" class="h-9 w-9 rounded-full object-cover ring-2 ring-base-300">
+                <span class="text-lg font-extrabold tracking-tight text-base-content">Chez <span class="text-primary">Kiza</span></span>
             </a>
-        </div>
 
-        <div class="navbar-end hidden lg:flex w-full">
-            <ul class="menu menu-horizontal gap-1 items-center">
-                <li><a href="{% url 'landing' %}" class="text-white hover:text-primary">Accueil</a></li>
-                <li><a href="{% url 'liste_plats' %}" class="text-white hover:text-primary">Menu</a></li>
-                <li>
-                    <a href="{% url 'panier' %}" id="panier-icon" class="text-white hover:text-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                        </svg>
-                        <span id="panier-badge" class="badge-count" style="display:none;">0</span>
-                    </a>
-                </li>
+            <nav class="hidden lg:flex items-center gap-1 text-sm font-medium text-base-content/70">
+                <a href="{% url 'landing' %}"
+                   class="px-4 py-2 rounded-xl transition-colors {% if request.resolver_match.url_name == 'landing' %}text-primary font-semibold bg-primary/10{% else %}hover:text-base-content hover:bg-base-200{% endif %}">
+                    Accueil
+                </a>
+                <a href="{% url 'liste_plats' %}"
+                   class="px-4 py-2 rounded-xl transition-colors {% if request.resolver_match.url_name == 'liste_plats' %}text-primary font-semibold bg-primary/10{% else %}hover:text-base-content hover:bg-base-200{% endif %}">
+                    Menu
+                </a>
+            </nav>
+
+            <div class="flex items-center gap-1.5">
+                <button type="button" id="panier-icon" class="btn btn-ghost btn-circle relative" aria-label="Ouvrir le panier">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <span id="panier-badge" class="badge-count" style="display:none;">0</span>
+                </button>
+
                 {% if user.is_authenticated %}
-                <li>
-                    <a href="{% url 'mes_commandes' %}" class="text-white hover:text-primary flex items-center gap-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                        </svg>
-                        Mes commandes
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'settings' %}" class="text-white hover:text-primary flex items-center gap-1" title="Paramètres">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'deconnexion' %}" class="text-white hover:text-primary flex items-center gap-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                        </svg>
-                        Déconnexion
-                    </a>
-                </li>
+                <a href="{% url 'mes_commandes' %}"
+                   class="hidden lg:inline-flex btn btn-ghost btn-sm rounded-xl gap-2 {% if request.resolver_match.url_name == 'mes_commandes' %}text-primary bg-primary/10{% endif %}">
+                    Mes commandes
+                </a>
+                <div class="dropdown dropdown-end hidden lg:block">
+                    <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
+                        <div class="bg-primary/15 text-primary text-sm font-bold rounded-full w-9 h-9 flex items-center justify-center ring-1 ring-base-300">
+                            {{ user.username|first|upper }}
+                        </div>
+                    </div>
+                    <ul tabindex="0" class="dropdown-content menu bg-base-100 border border-base-300 rounded-2xl p-2 shadow-lg w-52 mt-2 z-50">
+                        <li><a href="{% url 'mes_commandes' %}" class="py-2.5">📋 Mes commandes</a></li>
+                        <li><a href="{% url 'settings' %}" class="py-2.5">🎨 Préférences</a></li>
+                        <li class="mt-1 pt-2 border-t border-base-200"><a href="{% url 'deconnexion' %}" class="py-2.5 text-error">Déconnexion</a></li>
+                    </ul>
+                </div>
+                <a href="{% url 'deconnexion' %}" class="lg:hidden btn btn-ghost btn-sm" title="Déconnexion">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                </a>
                 {% else %}
-                <li><a href="{% url 'connexion' %}" class="btn btn-sm btn-primary text-white">Connexion</a></li>
+                <a href="{% url 'connexion' %}" class="hidden lg:inline-flex btn btn-primary btn-sm rounded-xl">Se connecter</a>
+                <a href="{% url 'connexion' %}" class="lg:hidden btn btn-ghost btn-sm" title="Se connecter">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                    </svg>
+                </a>
                 {% endif %}
-            </ul>
-        </div>
-    </div>
-
-    <div id="cart-drawer-overlay" class="fixed inset-0 bg-black/60 z-40 opacity-0 pointer-events-none"></div>
-    <aside id="cart-drawer" class="fixed inset-x-0 bottom-0 z-50 lg:top-0 lg:right-0 lg:left-auto bg-base-100 shadow-2xl rounded-t-3xl lg:rounded-l-[32px] max-h-screen overflow-hidden transform transition-transform duration-300">
-        <div class="flex items-center justify-between gap-4 px-6 py-5 border-b border-base-200">
-            <div>
-                <p class="text-xs uppercase tracking-[0.32em] text-gray-500">Panier</p>
-                <h2 class="text-2xl font-bold text-secondary">Mon Panier</h2>
             </div>
-            <button id="cart-drawer-close" class="btn btn-ghost btn-circle text-gray-500 hover:text-primary transition duration-300" aria-label="Fermer le panier">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        </div>
+    </header>
+
+    <!-- ======================= DRAWER PANIER ======================= -->
+    <div id="cart-drawer-overlay" class="fixed inset-0 bg-black/50 z-50"></div>
+    <aside id="cart-drawer" class="fixed inset-x-0 bottom-0 z-[60] lg:top-0 lg:bottom-0 lg:right-0 lg:left-auto lg:w-[420px] bg-base-100 border-t lg:border-t-0 lg:border-l border-base-300 shadow-2xl max-h-[92vh] lg:max-h-none overflow-hidden">
+        <div class="flex items-center justify-between gap-4 px-5 py-4 border-b border-base-200">
+            <div>
+                <p class="text-[11px] uppercase tracking-[0.25em] text-base-content/50">Panier</p>
+                <h2 class="text-lg font-bold text-base-content">Mon panier</h2>
+            </div>
+            <button id="cart-drawer-close" class="btn btn-ghost btn-circle btn-sm" aria-label="Fermer le panier">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
         </div>
-        <div id="cart-drawer-items" class="px-6 py-4 overflow-y-auto space-y-4" style="max-height: calc(100vh - 260px);">
-            {% if cart_items %}
-                {% for item in cart_items %}
-                <div class="cart-item-row flex items-center gap-4 rounded-3xl bg-base-200 p-4 shadow-sm" data-price="{{ item.plat.prix }}">
-                    <input type="hidden" data-item-id="{{ item.plat.id }}" />
-                    <img src="{% if item.plat.image %}{{ item.plat.image.url }}{% else %}{% static 'menu/images/logo.jpg' %}{% endif %}" alt="{{ item.plat.nom }}" class="cart-item-image rounded-[20px] object-cover">
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center justify-between gap-3">
-                            <h3 class="font-semibold text-secondary truncate">{{ item.plat.nom }}</h3>
-                            <span class="text-sm text-gray-500">{{ item.plat.prix }} FCFA</span>
+
+        <div id="cart-drawer-items" class="px-5 py-3 overflow-y-auto divide-y divide-base-200" style="max-height: calc(100vh - 250px);">
+            {% for item in cart_items %}
+            <div class="cart-item-row flex items-center gap-3 py-4" data-price="{{ item.plat.prix }}">
+                <img src="{% if item.plat.image %}{{ item.plat.image.url }}{% else %}{% static 'menu/images/logo.jpg' %}{% endif %}"
+                     alt="{{ item.plat.nom }}" class="cart-item-image">
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-start justify-between gap-2">
+                        <h3 class="font-semibold text-base-content truncate">{{ item.plat.nom }}</h3>
+                        <span class="text-sm text-base-content/60 shrink-0">{{ item.plat.prix|fcf }} FCFA</span>
+                    </div>
+                    <div class="mt-2.5 flex items-center justify-between gap-2">
+                        <div class="inline-flex items-center border border-base-300 rounded-xl overflow-hidden">
+                            <button type="button" class="quantity-decrease btn btn-ghost btn-xs px-2.5" data-item="{{ item.plat.id }}">−</button>
+                            <span class="quantity-display px-2.5 text-sm font-semibold text-base-content" data-item="{{ item.plat.id }}">{{ item.quantite }}</span>
+                            <button type="button" class="quantity-increase btn btn-ghost btn-xs px-2.5" data-item="{{ item.plat.id }}">+</button>
                         </div>
-                        <div class="mt-3 flex items-center justify-between gap-3">
-                            <div class="btn-group border border-base-200 rounded-[20px] overflow-hidden shadow-inner">
-                                <button type="button" class="btn btn-sm btn-ghost text-secondary transition duration-300 quantity-decrease" data-item="{{ item.plat.id }}">-</button>
-                                <span class="btn btn-sm btn-outline px-4 quantity-display" data-item="{{ item.plat.id }}">{{ item.quantite }}</span>
-                                <button type="button" class="btn btn-sm btn-ghost text-secondary transition duration-300 quantity-increase" data-item="{{ item.plat.id }}">+</button>
-                            </div>
-                            <button type="button" class="btn btn-sm btn-ghost text-red-600 hover:bg-red-100 remove-cart-item" data-item="{{ item.plat.id }}" aria-label="Supprimer l'article">
+                        <div class="flex items-center gap-3">
+                            <span class="font-bold text-primary subtotal-display" data-item="{{ item.plat.id }}">{{ item.sous_total|fcf }} FCFA</span>
+                            <button type="button" class="remove-cart-item btn btn-ghost btn-xs text-base-content/40 hover:text-error" data-item="{{ item.plat.id }}" aria-label="Supprimer">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </button>
-                            <span class="font-semibold text-primary subtotal-display" data-item="{{ item.plat.id }}">{{ item.sous_total }} FCFA</span>
                         </div>
                     </div>
                 </div>
-                {% endfor %}
-            {% else %}
-                <div class="py-12 text-center">
-                    <p class="text-gray-500">Votre panier est vide pour l’instant.</p>
-                </div>
-            {% endif %}
+            </div>
+            {% empty %}
+            <div class="py-12 text-center">
+                <p class="text-base-content/60">Votre panier est vide pour l'instant.</p>
+            </div>
+            {% endfor %}
             <div id="cart-drawer-empty" class="py-12 text-center hidden">
-                <p class="text-gray-500">Votre panier est vide pour l’instant.</p>
+                <p class="text-base-content/60">Votre panier est vide pour l'instant.</p>
             </div>
         </div>
-        <div class="border-t border-base-200 px-6 py-5 bg-base-100">
-            <div class="space-y-3">
-                <div class="flex items-center justify-between text-sm text-gray-500">
-                    <span>Sous-total</span>
-                    <span id="drawer-subtotal">{{ cart_subtotal }} FCFA</span>
-                </div>
-                <div class="flex items-center justify-between text-sm text-gray-500">
-                    <span>Frais de livraison</span>
-                    <span id="drawer-delivery">{{ cart_delivery_fee }} FCFA</span>
-                </div>
-                <div class="flex items-center justify-between text-base font-semibold text-secondary">
-                    <span>Total</span>
-                    <span id="drawer-total">{{ cart_total }} FCFA</span>
-                </div>
+
+        <div class="border-t border-base-200 px-5 py-4 space-y-2.5 bg-base-100">
+            <div class="flex justify-between text-sm text-base-content/60">
+                <span>Sous-total</span>
+                <span id="drawer-subtotal" data-value="{{ cart_subtotal }}" class="font-medium text-base-content">{{ cart_subtotal|fcf }} FCFA</span>
             </div>
-            <a id="checkout-button" href="{% url 'valider_commande' %}" class="btn w-full mt-5 bg-marron border-0 text-white rounded-3xl hover:bg-[#462f25] transition duration-300">Passer à la caisse</a>
+            <div id="drawer-delivery-row" class="flex justify-between text-sm text-base-content/60">
+                <span>{% if cart_mode == 'sur_place' %}Sur place{% else %}Livraison{% endif %}</span>
+                <span id="drawer-delivery" data-value="{{ cart_delivery_fee }}" class="font-medium text-base-content">{{ cart_delivery_fee|fcf }} FCFA</span>
+            </div>
+            <div class="flex justify-between items-center pt-1 border-t border-base-200">
+                <span class="font-semibold text-base-content">Total</span>
+                <span id="drawer-total" data-value="{{ cart_total }}" class="text-lg font-extrabold text-primary">{{ cart_total|fcf }} FCFA</span>
+            </div>
+            <a id="checkout-button" href="{% url 'valider_commande' %}" class="btn btn-primary w-full rounded-xl">
+                Passer à la caisse
+            </a>
         </div>
     </aside>
 
-    <div class="fixed bottom-0 left-0 right-0 bg-secondary text-white shadow-lg flex justify-around items-center h-16 z-50 lg:hidden border-t border-gray-700/30">
-        <a href="{% url 'landing' %}" class="flex flex-col items-center justify-center w-full h-full text-white/70 hover:text-primary transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-            <span class="text-xs mt-1">Accueil</span>
-        </a>
-
-        <a href="{% url 'liste_plats' %}" class="flex flex-col items-center justify-center w-full h-full text-white/70 hover:text-primary transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
-            <span class="text-xs mt-1">Menu</span>
-        </a>
-
-        <div class="relative -top-4">
-            <a href="{% url 'panier' %}" id="panier-icon-mobile" class="bg-marron text-white p-4 rounded-full shadow-xl flex items-center justify-center border-4 border-base-100 w-16 h-16 active:scale-95 transition-transform">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+    <!-- ======================= NAVIGATION MOBILE (bas) ======================= -->
+    <nav class="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-base-100 border-t border-base-300 pb-[env(safe-area-inset-bottom)]">
+        <div class="grid grid-cols-5 h-16">
+            <a href="{% url 'landing' %}"
+               class="flex flex-col items-center justify-center gap-1 text-base-content/50 transition-colors {% if request.resolver_match.url_name == 'landing' %}text-primary{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-[22px] w-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
-                <span id="panier-badge-mobile" class="badge-count" style="display:none;">0</span>
+                <span class="text-[10px] font-medium">Accueil</span>
+            </a>
+            <a href="{% url 'liste_plats' %}"
+               class="flex flex-col items-center justify-center gap-1 text-base-content/50 transition-colors {% if request.resolver_match.url_name == 'liste_plats' %}text-primary{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-[22px] w-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                <span class="text-[10px] font-medium">Menu</span>
+            </a>
+            <div class="relative flex items-center justify-center">
+                <button type="button" id="panier-icon-mobile" class="absolute -top-5 w-14 h-14 rounded-full bg-primary text-primary-content flex items-center justify-center shadow-lg border-4 border-base-100 active:scale-95 transition-transform" aria-label="Panier">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <span id="panier-badge-mobile" class="badge-count" style="display:none;">0</span>
+                </button>
+            </div>
+            {% if user.is_authenticated %}
+            <a href="{% url 'mes_commandes' %}"
+               class="flex flex-col items-center justify-center gap-1 text-base-content/50 transition-colors {% if request.resolver_match.url_name == 'mes_commandes' %}text-primary{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-[22px] w-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                </svg>
+                <span class="text-[10px] font-medium">Commandes</span>
+            </a>
+            {% else %}
+            <a href="{% url 'connexion' %}"
+               class="flex flex-col items-center justify-center gap-1 text-base-content/50 transition-colors {% if request.resolver_match.url_name == 'connexion' %}text-primary{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-[22px] w-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                </svg>
+                <span class="text-[10px] font-medium">Connexion</span>
+            </a>
+            {% endif %}
+            <a href="{% url 'settings' %}"
+               class="flex flex-col items-center justify-center gap-1 text-base-content/50 transition-colors {% if request.resolver_match.url_name == 'settings' %}text-primary{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-[22px] w-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span class="text-[10px] font-medium">Options</span>
             </a>
         </div>
+    </nav>
 
-        {% if user.is_authenticated %}
-        <a href="{% url 'mes_commandes' %}" class="flex flex-col items-center justify-center w-full h-full text-white/70 hover:text-primary transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-            </svg>
-            <span class="text-xs mt-1">Commandes</span>
-        </a>
-        {% else %}
-        <a href="{% url 'connexion' %}" class="flex flex-col items-center justify-center w-full h-full text-white/70 hover:text-primary transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-            </svg>
-            <span class="text-xs mt-1">Connexion</span>
-        </a>
-        {% endif %}
-
-        <a href="{% url 'settings' %}" class="flex flex-col items-center justify-center w-full h-full text-white/70 hover:text-primary transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            <span class="text-xs mt-1">Options</span>
-        </a>
-    </div>
-
+    <!-- ======================= MESSAGES ======================= -->
     {% if messages %}
-    <div class="container mx-auto px-4 mt-4">
+    <div class="container mx-auto px-4 mt-4 space-y-2">
         {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} mb-2">
+        <div class="alert rounded-xl {% if message.tags == 'error' %}alert-error{% else %}alert-{{ message.tags }}{% endif %}">
             <span>{{ message }}</span>
         </div>
         {% endfor %}
     </div>
     {% endif %}
 
-    <main class="flex-1 container mx-auto px-4 py-6">
-        {% block content %}{% endblock %}
+    <!-- ======================= CONTENU ======================= -->
+    <main class="flex-1 w-full">
+        <div class="container mx-auto px-4 py-6 lg:py-10">
+            {% block content %}{% endblock %}
+        </div>
     </main>
 
-    {% if not user.is_authenticated %}
-    <footer class="footer footer-center bg-secondary text-white p-6 mt-auto mb-16 md:mb-0">
-        <p class="font-semibold">Chez Kiza - Delicious food</p>
+    <!-- ======================= PIED DE PAGE ======================= -->
+    <footer class="hidden lg:block border-t border-base-300 bg-base-100">
+        <div class="container mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-base-content/60">
+            <div class="flex items-center gap-2.5">
+                <img src="{% static 'menu/images/logo.jpg' %}" alt="Chez Kiza" class="h-7 w-7 rounded-full object-cover">
+                <span class="font-semibold text-base-content">Chez Kiza</span>
+            </div>
+            <p>Fait avec <span class="text-accent">♥</span> par OpenMind Academy</p>
+        </div>
     </footer>
-    {% endif %}
 
+    <!-- ======================= SCRIPTS ======================= -->
     <script>
         const badgeDesktop = document.getElementById('panier-badge');
         const badgeMobile = document.getElementById('panier-badge-mobile');
         const serverCartCount = Number('{{ cart_count|default:0 }}');
+        const deliveryEl = document.getElementById('drawer-delivery');
+        const subtotalEl = document.getElementById('drawer-subtotal');
+        const totalEl = document.getElementById('drawer-total');
+
+        function fmt(n) {
+            const s = String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+            return `${s} FCFA`;
+        }
 
         function getCount() {
             return parseInt(localStorage.getItem('panier_count') || '0');
@@ -484,70 +353,26 @@
 
         function setEmptyDrawerState(isEmpty) {
             const emptyState = document.getElementById('cart-drawer-empty');
-            const itemsContainer = document.getElementById('cart-drawer-items');
             const checkoutButton = document.getElementById('checkout-button');
-            if (!emptyState || !itemsContainer || !checkoutButton) return;
-            if (isEmpty) {
-                emptyState.classList.remove('hidden');
-                checkoutButton.classList.add('hidden');
-            } else {
-                emptyState.classList.add('hidden');
-                checkoutButton.classList.remove('hidden');
-            }
+            if (!emptyState || !checkoutButton) return;
+            emptyState.classList.toggle('hidden', !isEmpty);
+            checkoutButton.classList.toggle('hidden', isEmpty);
         }
 
-        const initialCount = serverCartCount || getCount();
-        setCount(initialCount);
-
-        function applyTheme(themeName) {
-            const theme = themeName || localStorage.getItem('kiza_theme') || 'kiza';
-            document.documentElement.dataset.theme = theme;
-            document.body.dataset.theme = theme;
-            localStorage.setItem('kiza_theme', theme);
-            const useDarkText = theme === 'kiza' || theme === 'light';
-            document.querySelectorAll('.adapt-text').forEach(el => {
-                el.classList.toggle('text-slate-900', useDarkText);
-                el.classList.toggle('text-white', !useDarkText);
-                el.classList.toggle('text-secondary', true);
-            });
-        }
+        setCount(serverCartCount || getCount());
 
         const savedTheme = localStorage.getItem('kiza_theme');
         if (savedTheme) {
-            applyTheme(savedTheme);
+            window.applyTheme(savedTheme);
         }
-
-        function applyMenuPreferences() {
-            const compact = localStorage.getItem('kiza_compact_menu') === '1';
-            const hideSpicy = localStorage.getItem('kiza_hide_spicy') === '1';
-            const showAllergens = localStorage.getItem('kiza_show_allergens') === '1';
-
-            document.body.classList.toggle('compact-menu', compact);
-            document.body.classList.toggle('hide-spicy', hideSpicy);
-            document.body.classList.toggle('show-allergens', showAllergens);
-
-            document.querySelectorAll('[data-spicy="true"]').forEach(card => {
-                card.classList.toggle('hidden', hideSpicy);
-            });
-            document.querySelectorAll('.allergen-chip').forEach(chip => {
-                chip.classList.toggle('hidden', !showAllergens);
-            });
-        }
-
-        window.applyTheme = window.applyTheme || applyTheme;
-        window.applyMenuPreferences = window.applyMenuPreferences || applyMenuPreferences;
 
         function removeCartItem(itemId) {
-            const itemRow = document.querySelector(`.remove-cart-item[data-item="${itemId}"]`);
-            if (!itemRow) return;
-            const rowElement = itemRow.closest('.cart-item-row');
-            if (!rowElement) return;
-            const qtyEl = rowElement.querySelector('.quantity-display');
-            const qty = Number(qtyEl?.textContent || 0);
-            const currentCount = getCount();
-            const nextCount = Math.max(0, currentCount - qty);
-            rowElement.remove();
-            setCount(nextCount);
+            const btn = document.querySelector(`.remove-cart-item[data-item="${itemId}"]`);
+            const row = btn?.closest('.cart-item-row');
+            if (!row) return;
+            const qty = Number(row.querySelector('.quantity-display')?.textContent || 0);
+            row.remove();
+            setCount(Math.max(0, getCount() - qty));
             recalcDrawerTotals();
             setEmptyDrawerState(document.querySelectorAll('.cart-item-row').length === 0);
         }
@@ -569,60 +394,43 @@
             }
         }
 
-        applyMenuPreferences();
+        window.applyMenuPreferences();
 
         if (localStorage.getItem('kiza_open_cart_after_add') === '1') {
             localStorage.removeItem('kiza_open_cart_after_add');
             setTimeout(() => openCartDrawer(), 300);
         }
 
+        // Animation "vol vers le panier" + navigation vers la vue ajout
         document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
             btn.addEventListener('click', function (e) {
                 e.preventDefault();
                 const href = this.getAttribute('href');
-                const btnRect = this.getBoundingClientRect();
-                
-                const isMobile = window.innerWidth < 1024;
-                const panierIcon = isMobile 
-                    ? document.getElementById('panier-icon-mobile') 
+                const rect = this.getBoundingClientRect();
+                const target = window.innerWidth < 1024
+                    ? document.getElementById('panier-icon-mobile')
                     : document.getElementById('panier-icon');
+                const tRect = target?.getBoundingClientRect() || { left: innerWidth - 60, top: 20 };
 
                 const fly = document.createElement('div');
-                fly.style.position = 'fixed';
-                fly.style.width = '12px';
-                fly.style.height = '12px';
-                fly.style.backgroundColor = '#E63946';
-                fly.style.borderRadius = '50%';
-                fly.style.zIndex = '9999';
-                fly.style.pointerEvents = 'none';
-                fly.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                
-                fly.style.left = (btnRect.left + btnRect.width / 2) + 'px';
-                fly.style.top = (btnRect.top + window.scrollY + btnRect.height / 2) + 'px';
+                fly.style.cssText = 'position:fixed;width:12px;height:12px;border-radius:50%;background:var(--color-accent);z-index:9999;pointer-events:none;transition:all 0.7s cubic-bezier(0.25,0.46,0.45,0.94);';
+                fly.style.left = (rect.left + rect.width / 2) + 'px';
+                fly.style.top = (rect.top + scrollY + rect.height / 2) + 'px';
                 document.body.appendChild(fly);
 
-                const targetRect = panierIcon
-                    ? panierIcon.getBoundingClientRect()
-                    : { left: window.innerWidth - 60, top: 20 };
-
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        fly.style.left = (targetRect.left + targetRect.width / 2) + 'px';
-                        fly.style.top = (targetRect.top + window.scrollY + targetRect.height / 2) + 'px';
-                        fly.style.transform = 'scale(0.3)';
-                        fly.style.opacity = '0';
-                    });
-                });
+                requestAnimationFrame(() => requestAnimationFrame(() => {
+                    fly.style.left = (tRect.left + tRect.width / 2) + 'px';
+                    fly.style.top = (tRect.top + scrollY + tRect.height / 2) + 'px';
+                    fly.style.transform = 'scale(0.3)';
+                    fly.style.opacity = '0';
+                }));
 
                 const newCount = getCount() + 1;
                 localStorage.setItem('panier_count', newCount);
                 localStorage.setItem('kiza_open_cart_after_add', '1');
                 updateBadge(newCount);
 
-                setTimeout(() => {
-                    fly.remove();
-                    window.location.href = href;
-                }, 850);
+                setTimeout(() => { fly.remove(); window.location.href = href; }, 700);
             });
         });
 
@@ -644,56 +452,39 @@
             document.body.classList.remove('overflow-hidden');
         }
 
-        document.querySelectorAll('#panier-icon, #panier-icon-mobile').forEach(element => {
-            if (!element) return;
-            element.addEventListener('click', function (e) {
-                e.preventDefault();
-                openCartDrawer();
-            });
+        document.querySelectorAll('#panier-icon, #panier-icon-mobile').forEach(el => {
+            el?.addEventListener('click', e => { e.preventDefault(); openCartDrawer(); });
         });
+        cartDrawerOverlay?.addEventListener('click', closeCartDrawer);
+        cartDrawerClose?.addEventListener('click', closeCartDrawer);
 
         document.querySelectorAll('.remove-cart-item').forEach(button => {
             button.addEventListener('click', function () {
                 const itemId = this.dataset.item;
                 updateCartOnServer('remove', itemId).then(data => {
-                    if (data) {
-                        removeCartItem(itemId);
-                        setCount(data.count);
-                        const subtotalElement = document.getElementById('drawer-subtotal');
-                        const totalElement = document.getElementById('drawer-total');
-                        if (subtotalElement) subtotalElement.textContent = data.subtotal;
-                        if (totalElement) totalElement.textContent = data.total;
-                    }
+                    if (!data) return;
+                    removeCartItem(itemId);
+                    setCount(data.count);
+                    if (subtotalEl) { subtotalEl.textContent = fmt(data.subtotal); subtotalEl.dataset.value = data.subtotal; }
+                    if (deliveryEl) { deliveryEl.textContent = fmt(data.delivery); deliveryEl.dataset.value = data.delivery; }
+                    if (totalEl) totalEl.textContent = fmt(data.total);
                 });
             });
         });
 
-        if (cartDrawerOverlay) {
-            cartDrawerOverlay.addEventListener('click', closeCartDrawer);
-        }
-        if (cartDrawerClose) {
-            cartDrawerClose.addEventListener('click', closeCartDrawer);
-        }
-
         function recalcDrawerTotals() {
-            const subtotalElement = document.getElementById('drawer-subtotal');
-            const totalElement = document.getElementById('drawer-total');
-            const deliveryElement = document.getElementById('drawer-delivery');
             let subtotal = 0;
             document.querySelectorAll('.cart-item-row').forEach(row => {
                 const price = Number(row.dataset.price || 0);
-                const qtyEl = row.querySelector('.quantity-display');
-                const qty = Number(qtyEl?.textContent || 0);
+                const qty = Number(row.querySelector('.quantity-display')?.textContent || 0);
                 const lineTotal = price * qty;
                 subtotal += lineTotal;
                 const lineEl = row.querySelector('.subtotal-display');
-                if (lineEl) {
-                    lineEl.textContent = `${lineTotal} FCFA`;
-                }
+                if (lineEl) lineEl.textContent = fmt(lineTotal);
             });
-            const delivery = Number((deliveryElement?.textContent || '0').replace(/\D/g, ''));
-            if (subtotalElement) subtotalElement.textContent = `${subtotal} FCFA`;
-            if (totalElement) totalElement.textContent = `${subtotal + delivery} FCFA`;
+            const delivery = Number(deliveryEl?.dataset.value || 0);
+            if (subtotalEl) { subtotalEl.textContent = fmt(subtotal); subtotalEl.dataset.value = subtotal; }
+            if (totalEl) totalEl.textContent = fmt(subtotal + delivery);
             setEmptyDrawerState(document.querySelectorAll('.cart-item-row').length === 0);
         }
 
@@ -707,15 +498,13 @@
                 updateCartOnServer(action, itemId).then(data => {
                     if (!data) return;
                     const qty = Number(qtyEl.textContent);
-                    const newQty = isIncrease ? qty + 1 : Math.max(1, qty - 1);
-                    qtyEl.textContent = newQty;
-                    const itemSubtotal = document.querySelector(`.subtotal-display[data-item="${itemId}"]`);
-                    if (itemSubtotal) itemSubtotal.textContent = data.item_subtotal;
+                    qtyEl.textContent = isIncrease ? qty + 1 : Math.max(1, qty - 1);
+                    const lineEl = document.querySelector(`.subtotal-display[data-item="${itemId}"]`);
+                    if (lineEl) lineEl.textContent = fmt(data.item_subtotal);
                     setCount(data.count);
-                    const subtotalElement = document.getElementById('drawer-subtotal');
-                    const totalElement = document.getElementById('drawer-total');
-                    if (subtotalElement) subtotalElement.textContent = data.subtotal;
-                    if (totalElement) totalElement.textContent = data.total;
+                    if (subtotalEl) { subtotalEl.textContent = fmt(data.subtotal); subtotalEl.dataset.value = data.subtotal; }
+                    if (deliveryEl) { deliveryEl.textContent = fmt(data.delivery); deliveryEl.dataset.value = data.delivery; }
+                    if (totalEl) totalEl.textContent = fmt(data.total);
                     setEmptyDrawerState(data.empty);
                 });
             });
